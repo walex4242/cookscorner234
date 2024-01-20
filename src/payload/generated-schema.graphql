@@ -1,38 +1,46 @@
 type Query {
   Page(id: String!, draft: Boolean): Page
-  Pages(where: Page_where, draft: Boolean, page: Int, limit: Int, sort: String): Pages
+  Pages(draft: Boolean, where: Page_where, limit: Int, page: Int, sort: String): Pages
   docAccessPage(id: String!): pagesDocAccess
   versionPage(id: String): PageVersion
-  versionsPages(where: versionsPage_where, page: Int, limit: Int, sort: String): versionsPages
+  versionsPages(where: versionsPage_where, limit: Int, page: Int, sort: String): versionsPages
   Product(id: String!, draft: Boolean): Product
-  Products(where: Product_where, draft: Boolean, page: Int, limit: Int, sort: String): Products
+  Products(draft: Boolean, where: Product_where, limit: Int, page: Int, sort: String): Products
   docAccessProduct(id: String!): productsDocAccess
   versionProduct(id: String): ProductVersion
-  versionsProducts(where: versionsProduct_where, page: Int, limit: Int, sort: String): versionsProducts
+  versionsProducts(where: versionsProduct_where, limit: Int, page: Int, sort: String): versionsProducts
   Order(id: String!, draft: Boolean): Order
-  Orders(where: Order_where, draft: Boolean, page: Int, limit: Int, sort: String): Orders
+  Orders(draft: Boolean, where: Order_where, limit: Int, page: Int, sort: String): Orders
   docAccessOrder(id: String!): ordersDocAccess
   Media(id: String!, draft: Boolean): Media
-  allMedia(where: Media_where, draft: Boolean, page: Int, limit: Int, sort: String): allMedia
+  allMedia(draft: Boolean, where: Media_where, limit: Int, page: Int, sort: String): allMedia
   docAccessMedia(id: String!): mediaDocAccess
   Category(id: String!, draft: Boolean): Category
-  Categories(where: Category_where, draft: Boolean, page: Int, limit: Int, sort: String): Categories
+  Categories(draft: Boolean, where: Category_where, limit: Int, page: Int, sort: String): Categories
   docAccessCategory(id: String!): categoriesDocAccess
   User(id: String!, draft: Boolean): User
-  Users(where: User_where, draft: Boolean, page: Int, limit: Int, sort: String): Users
+  Users(draft: Boolean, where: User_where, limit: Int, page: Int, sort: String): Users
   docAccessUser(id: String!): usersDocAccess
   meUser: usersMe
   initializedUser: Boolean
+  Form(id: String!, draft: Boolean): Form
+  Forms(draft: Boolean, where: Form_where, limit: Int, page: Int, sort: String): Forms
+  docAccessForm(id: String!): formsDocAccess
+  FormSubmission(id: String!, draft: Boolean): FormSubmission
+  FormSubmissions(draft: Boolean, where: FormSubmission_where, limit: Int, page: Int, sort: String): FormSubmissions
+  docAccessFormSubmission(id: String!): form_submissionsDocAccess
   Redirect(id: String!, draft: Boolean): Redirect
-  Redirects(where: Redirect_where, draft: Boolean, page: Int, limit: Int, sort: String): Redirects
+  Redirects(draft: Boolean, where: Redirect_where, limit: Int, page: Int, sort: String): Redirects
   docAccessRedirect(id: String!): redirectsDocAccess
+  PayloadPreference(id: String!, draft: Boolean): PayloadPreference
+  PayloadPreferences(draft: Boolean, where: PayloadPreference_where, limit: Int, page: Int, sort: String): PayloadPreferences
+  docAccessPayloadPreference(id: String!): payload_preferencesDocAccess
   Settings(draft: Boolean): Settings
   docAccessSettings: settingsDocAccess
   Header(draft: Boolean): Header
   docAccessHeader: headerDocAccess
   Footer(draft: Boolean): Footer
   docAccessFooter: footerDocAccess
-  Preference(key: String): Preference
   Access: Access
 }
 
@@ -66,6 +74,7 @@ enum Page_Hero_type {
   highImpact
   mediumImpact
   lowImpact
+  customHero
 }
 
 """
@@ -84,6 +93,7 @@ type Page_Hero_Links_Link {
   reference: Page_Hero_Links_Link_Reference_Relationship
   url: String
   label: String
+  icon(where: Page_Hero_Links_Link_Icon_where): Media
   appearance: Page_Hero_Links_Link_appearance
 }
 
@@ -103,12 +113,6 @@ enum Page_Hero_Links_Link_Reference_RelationTo {
 
 union Page_Hero_Links_Link_Reference = Page
 
-enum Page_Hero_Links_Link_appearance {
-  default
-  primary
-  secondary
-}
-
 type Media {
   id: String
   alt: String!
@@ -123,6 +127,174 @@ type Media {
   height: Float
 }
 
+input Page_Hero_Links_Link_Icon_where {
+  alt: Page_Hero_Links_Link_Icon_alt_operator
+  caption: Page_Hero_Links_Link_Icon_caption_operator
+  updatedAt: Page_Hero_Links_Link_Icon_updatedAt_operator
+  createdAt: Page_Hero_Links_Link_Icon_createdAt_operator
+  url: Page_Hero_Links_Link_Icon_url_operator
+  filename: Page_Hero_Links_Link_Icon_filename_operator
+  mimeType: Page_Hero_Links_Link_Icon_mimeType_operator
+  filesize: Page_Hero_Links_Link_Icon_filesize_operator
+  width: Page_Hero_Links_Link_Icon_width_operator
+  height: Page_Hero_Links_Link_Icon_height_operator
+  id: Page_Hero_Links_Link_Icon_id_operator
+  AND: [Page_Hero_Links_Link_Icon_where_and]
+  OR: [Page_Hero_Links_Link_Icon_where_or]
+}
+
+input Page_Hero_Links_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Page_Hero_Links_Link_Icon_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Page_Hero_Links_Link_Icon_where_and {
+  alt: Page_Hero_Links_Link_Icon_alt_operator
+  caption: Page_Hero_Links_Link_Icon_caption_operator
+  updatedAt: Page_Hero_Links_Link_Icon_updatedAt_operator
+  createdAt: Page_Hero_Links_Link_Icon_createdAt_operator
+  url: Page_Hero_Links_Link_Icon_url_operator
+  filename: Page_Hero_Links_Link_Icon_filename_operator
+  mimeType: Page_Hero_Links_Link_Icon_mimeType_operator
+  filesize: Page_Hero_Links_Link_Icon_filesize_operator
+  width: Page_Hero_Links_Link_Icon_width_operator
+  height: Page_Hero_Links_Link_Icon_height_operator
+  id: Page_Hero_Links_Link_Icon_id_operator
+  AND: [Page_Hero_Links_Link_Icon_where_and]
+  OR: [Page_Hero_Links_Link_Icon_where_or]
+}
+
+input Page_Hero_Links_Link_Icon_where_or {
+  alt: Page_Hero_Links_Link_Icon_alt_operator
+  caption: Page_Hero_Links_Link_Icon_caption_operator
+  updatedAt: Page_Hero_Links_Link_Icon_updatedAt_operator
+  createdAt: Page_Hero_Links_Link_Icon_createdAt_operator
+  url: Page_Hero_Links_Link_Icon_url_operator
+  filename: Page_Hero_Links_Link_Icon_filename_operator
+  mimeType: Page_Hero_Links_Link_Icon_mimeType_operator
+  filesize: Page_Hero_Links_Link_Icon_filesize_operator
+  width: Page_Hero_Links_Link_Icon_width_operator
+  height: Page_Hero_Links_Link_Icon_height_operator
+  id: Page_Hero_Links_Link_Icon_id_operator
+  AND: [Page_Hero_Links_Link_Icon_where_and]
+  OR: [Page_Hero_Links_Link_Icon_where_or]
+}
+
+enum Page_Hero_Links_Link_appearance {
+  default
+  primary
+  secondary
+}
+
 input Page_Hero_Media_where {
   alt: Page_Hero_Media_alt_operator
   caption: Page_Hero_Media_caption_operator
@@ -135,8 +307,8 @@ input Page_Hero_Media_where {
   width: Page_Hero_Media_width_operator
   height: Page_Hero_Media_height_operator
   id: Page_Hero_Media_id_operator
-  OR: [Page_Hero_Media_where_or]
   AND: [Page_Hero_Media_where_and]
+  OR: [Page_Hero_Media_where_or]
 }
 
 input Page_Hero_Media_alt_operator {
@@ -253,20 +425,6 @@ input Page_Hero_Media_id_operator {
   exists: Boolean
 }
 
-input Page_Hero_Media_where_or {
-  alt: Page_Hero_Media_alt_operator
-  caption: Page_Hero_Media_caption_operator
-  updatedAt: Page_Hero_Media_updatedAt_operator
-  createdAt: Page_Hero_Media_createdAt_operator
-  url: Page_Hero_Media_url_operator
-  filename: Page_Hero_Media_filename_operator
-  mimeType: Page_Hero_Media_mimeType_operator
-  filesize: Page_Hero_Media_filesize_operator
-  width: Page_Hero_Media_width_operator
-  height: Page_Hero_Media_height_operator
-  id: Page_Hero_Media_id_operator
-}
-
 input Page_Hero_Media_where_and {
   alt: Page_Hero_Media_alt_operator
   caption: Page_Hero_Media_caption_operator
@@ -279,9 +437,27 @@ input Page_Hero_Media_where_and {
   width: Page_Hero_Media_width_operator
   height: Page_Hero_Media_height_operator
   id: Page_Hero_Media_id_operator
+  AND: [Page_Hero_Media_where_and]
+  OR: [Page_Hero_Media_where_or]
 }
 
-union Page_Layout = Cta | Content | MediaBlock | Archive
+input Page_Hero_Media_where_or {
+  alt: Page_Hero_Media_alt_operator
+  caption: Page_Hero_Media_caption_operator
+  updatedAt: Page_Hero_Media_updatedAt_operator
+  createdAt: Page_Hero_Media_createdAt_operator
+  url: Page_Hero_Media_url_operator
+  filename: Page_Hero_Media_filename_operator
+  mimeType: Page_Hero_Media_mimeType_operator
+  filesize: Page_Hero_Media_filesize_operator
+  width: Page_Hero_Media_width_operator
+  height: Page_Hero_Media_height_operator
+  id: Page_Hero_Media_id_operator
+  AND: [Page_Hero_Media_where_and]
+  OR: [Page_Hero_Media_where_or]
+}
+
+union Page_Layout = Cta | Content | MediaBlock | Archive | FormBlock
 
 type Cta {
   invertBackground: Boolean
@@ -303,6 +479,7 @@ type Cta_Links_Link {
   reference: Cta_Links_Link_Reference_Relationship
   url: String
   label: String
+  icon(where: Cta_Links_Link_Icon_where): Media
   appearance: Cta_Links_Link_appearance
 }
 
@@ -321,6 +498,168 @@ enum Cta_Links_Link_Reference_RelationTo {
 }
 
 union Cta_Links_Link_Reference = Page
+
+input Cta_Links_Link_Icon_where {
+  alt: Cta_Links_Link_Icon_alt_operator
+  caption: Cta_Links_Link_Icon_caption_operator
+  updatedAt: Cta_Links_Link_Icon_updatedAt_operator
+  createdAt: Cta_Links_Link_Icon_createdAt_operator
+  url: Cta_Links_Link_Icon_url_operator
+  filename: Cta_Links_Link_Icon_filename_operator
+  mimeType: Cta_Links_Link_Icon_mimeType_operator
+  filesize: Cta_Links_Link_Icon_filesize_operator
+  width: Cta_Links_Link_Icon_width_operator
+  height: Cta_Links_Link_Icon_height_operator
+  id: Cta_Links_Link_Icon_id_operator
+  AND: [Cta_Links_Link_Icon_where_and]
+  OR: [Cta_Links_Link_Icon_where_or]
+}
+
+input Cta_Links_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Cta_Links_Link_Icon_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Cta_Links_Link_Icon_where_and {
+  alt: Cta_Links_Link_Icon_alt_operator
+  caption: Cta_Links_Link_Icon_caption_operator
+  updatedAt: Cta_Links_Link_Icon_updatedAt_operator
+  createdAt: Cta_Links_Link_Icon_createdAt_operator
+  url: Cta_Links_Link_Icon_url_operator
+  filename: Cta_Links_Link_Icon_filename_operator
+  mimeType: Cta_Links_Link_Icon_mimeType_operator
+  filesize: Cta_Links_Link_Icon_filesize_operator
+  width: Cta_Links_Link_Icon_width_operator
+  height: Cta_Links_Link_Icon_height_operator
+  id: Cta_Links_Link_Icon_id_operator
+  AND: [Cta_Links_Link_Icon_where_and]
+  OR: [Cta_Links_Link_Icon_where_or]
+}
+
+input Cta_Links_Link_Icon_where_or {
+  alt: Cta_Links_Link_Icon_alt_operator
+  caption: Cta_Links_Link_Icon_caption_operator
+  updatedAt: Cta_Links_Link_Icon_updatedAt_operator
+  createdAt: Cta_Links_Link_Icon_createdAt_operator
+  url: Cta_Links_Link_Icon_url_operator
+  filename: Cta_Links_Link_Icon_filename_operator
+  mimeType: Cta_Links_Link_Icon_mimeType_operator
+  filesize: Cta_Links_Link_Icon_filesize_operator
+  width: Cta_Links_Link_Icon_width_operator
+  height: Cta_Links_Link_Icon_height_operator
+  id: Cta_Links_Link_Icon_id_operator
+  AND: [Cta_Links_Link_Icon_where_and]
+  OR: [Cta_Links_Link_Icon_where_or]
+}
 
 enum Cta_Links_Link_appearance {
   primary
@@ -356,6 +695,7 @@ type Content_Columns_Link {
   reference: Content_Columns_Link_Reference_Relationship
   url: String
   label: String
+  icon(where: Content_Columns_Link_Icon_where): Media
   appearance: Content_Columns_Link_appearance
 }
 
@@ -374,6 +714,168 @@ enum Content_Columns_Link_Reference_RelationTo {
 }
 
 union Content_Columns_Link_Reference = Page
+
+input Content_Columns_Link_Icon_where {
+  alt: Content_Columns_Link_Icon_alt_operator
+  caption: Content_Columns_Link_Icon_caption_operator
+  updatedAt: Content_Columns_Link_Icon_updatedAt_operator
+  createdAt: Content_Columns_Link_Icon_createdAt_operator
+  url: Content_Columns_Link_Icon_url_operator
+  filename: Content_Columns_Link_Icon_filename_operator
+  mimeType: Content_Columns_Link_Icon_mimeType_operator
+  filesize: Content_Columns_Link_Icon_filesize_operator
+  width: Content_Columns_Link_Icon_width_operator
+  height: Content_Columns_Link_Icon_height_operator
+  id: Content_Columns_Link_Icon_id_operator
+  AND: [Content_Columns_Link_Icon_where_and]
+  OR: [Content_Columns_Link_Icon_where_or]
+}
+
+input Content_Columns_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Content_Columns_Link_Icon_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Content_Columns_Link_Icon_where_and {
+  alt: Content_Columns_Link_Icon_alt_operator
+  caption: Content_Columns_Link_Icon_caption_operator
+  updatedAt: Content_Columns_Link_Icon_updatedAt_operator
+  createdAt: Content_Columns_Link_Icon_createdAt_operator
+  url: Content_Columns_Link_Icon_url_operator
+  filename: Content_Columns_Link_Icon_filename_operator
+  mimeType: Content_Columns_Link_Icon_mimeType_operator
+  filesize: Content_Columns_Link_Icon_filesize_operator
+  width: Content_Columns_Link_Icon_width_operator
+  height: Content_Columns_Link_Icon_height_operator
+  id: Content_Columns_Link_Icon_id_operator
+  AND: [Content_Columns_Link_Icon_where_and]
+  OR: [Content_Columns_Link_Icon_where_or]
+}
+
+input Content_Columns_Link_Icon_where_or {
+  alt: Content_Columns_Link_Icon_alt_operator
+  caption: Content_Columns_Link_Icon_caption_operator
+  updatedAt: Content_Columns_Link_Icon_updatedAt_operator
+  createdAt: Content_Columns_Link_Icon_createdAt_operator
+  url: Content_Columns_Link_Icon_url_operator
+  filename: Content_Columns_Link_Icon_filename_operator
+  mimeType: Content_Columns_Link_Icon_mimeType_operator
+  filesize: Content_Columns_Link_Icon_filesize_operator
+  width: Content_Columns_Link_Icon_width_operator
+  height: Content_Columns_Link_Icon_height_operator
+  id: Content_Columns_Link_Icon_id_operator
+  AND: [Content_Columns_Link_Icon_where_and]
+  OR: [Content_Columns_Link_Icon_where_or]
+}
 
 enum Content_Columns_Link_appearance {
   default
@@ -407,8 +909,8 @@ input MediaBlock_Media_where {
   width: MediaBlock_Media_width_operator
   height: MediaBlock_Media_height_operator
   id: MediaBlock_Media_id_operator
-  OR: [MediaBlock_Media_where_or]
   AND: [MediaBlock_Media_where_and]
+  OR: [MediaBlock_Media_where_or]
 }
 
 input MediaBlock_Media_alt_operator {
@@ -525,20 +1027,6 @@ input MediaBlock_Media_id_operator {
   exists: Boolean
 }
 
-input MediaBlock_Media_where_or {
-  alt: MediaBlock_Media_alt_operator
-  caption: MediaBlock_Media_caption_operator
-  updatedAt: MediaBlock_Media_updatedAt_operator
-  createdAt: MediaBlock_Media_createdAt_operator
-  url: MediaBlock_Media_url_operator
-  filename: MediaBlock_Media_filename_operator
-  mimeType: MediaBlock_Media_mimeType_operator
-  filesize: MediaBlock_Media_filesize_operator
-  width: MediaBlock_Media_width_operator
-  height: MediaBlock_Media_height_operator
-  id: MediaBlock_Media_id_operator
-}
-
 input MediaBlock_Media_where_and {
   alt: MediaBlock_Media_alt_operator
   caption: MediaBlock_Media_caption_operator
@@ -551,6 +1039,24 @@ input MediaBlock_Media_where_and {
   width: MediaBlock_Media_width_operator
   height: MediaBlock_Media_height_operator
   id: MediaBlock_Media_id_operator
+  AND: [MediaBlock_Media_where_and]
+  OR: [MediaBlock_Media_where_or]
+}
+
+input MediaBlock_Media_where_or {
+  alt: MediaBlock_Media_alt_operator
+  caption: MediaBlock_Media_caption_operator
+  updatedAt: MediaBlock_Media_updatedAt_operator
+  createdAt: MediaBlock_Media_createdAt_operator
+  url: MediaBlock_Media_url_operator
+  filename: MediaBlock_Media_filename_operator
+  mimeType: MediaBlock_Media_mimeType_operator
+  filesize: MediaBlock_Media_filesize_operator
+  width: MediaBlock_Media_width_operator
+  height: MediaBlock_Media_height_operator
+  id: MediaBlock_Media_id_operator
+  AND: [MediaBlock_Media_where_and]
+  OR: [MediaBlock_Media_where_or]
 }
 
 type Archive {
@@ -578,11 +1084,174 @@ enum Archive_relationTo {
 
 type Category {
   id: String
-  title: String
+  title: String!
+  media(where: Category_Media_where): Media
   parent: Category
   breadcrumbs: [Category_Breadcrumbs!]
   updatedAt: DateTime
   createdAt: DateTime
+}
+
+input Category_Media_where {
+  alt: Category_Media_alt_operator
+  caption: Category_Media_caption_operator
+  updatedAt: Category_Media_updatedAt_operator
+  createdAt: Category_Media_createdAt_operator
+  url: Category_Media_url_operator
+  filename: Category_Media_filename_operator
+  mimeType: Category_Media_mimeType_operator
+  filesize: Category_Media_filesize_operator
+  width: Category_Media_width_operator
+  height: Category_Media_height_operator
+  id: Category_Media_id_operator
+  AND: [Category_Media_where_and]
+  OR: [Category_Media_where_or]
+}
+
+input Category_Media_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Category_Media_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Category_Media_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Category_Media_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Category_Media_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Category_Media_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Category_Media_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Category_Media_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Category_Media_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Category_Media_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Category_Media_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Category_Media_where_and {
+  alt: Category_Media_alt_operator
+  caption: Category_Media_caption_operator
+  updatedAt: Category_Media_updatedAt_operator
+  createdAt: Category_Media_createdAt_operator
+  url: Category_Media_url_operator
+  filename: Category_Media_filename_operator
+  mimeType: Category_Media_mimeType_operator
+  filesize: Category_Media_filesize_operator
+  width: Category_Media_width_operator
+  height: Category_Media_height_operator
+  id: Category_Media_id_operator
+  AND: [Category_Media_where_and]
+  OR: [Category_Media_where_or]
+}
+
+input Category_Media_where_or {
+  alt: Category_Media_alt_operator
+  caption: Category_Media_caption_operator
+  updatedAt: Category_Media_updatedAt_operator
+  createdAt: Category_Media_createdAt_operator
+  url: Category_Media_url_operator
+  filename: Category_Media_filename_operator
+  mimeType: Category_Media_mimeType_operator
+  filesize: Category_Media_filesize_operator
+  width: Category_Media_width_operator
+  height: Category_Media_height_operator
+  id: Category_Media_id_operator
+  AND: [Category_Media_where_and]
+  OR: [Category_Media_where_or]
 }
 
 type Category_Breadcrumbs {
@@ -607,12 +1276,13 @@ type Product {
   id: String
   title: String
   publishedOn: DateTime
-  layout: [Product_Layout!]!
+  layout: [Product_Layout!]
   stripeProductID: String
   priceJSON: String
   enablePaywall: Boolean
   paywall: [Product_Paywall!]
   categories: [Category!]
+  relatedProducts: [Product!]
   slug: String
   skipSync: Boolean
   meta: Product_Meta
@@ -643,8 +1313,8 @@ input Product_Meta_Image_where {
   width: Product_Meta_Image_width_operator
   height: Product_Meta_Image_height_operator
   id: Product_Meta_Image_id_operator
-  OR: [Product_Meta_Image_where_or]
   AND: [Product_Meta_Image_where_and]
+  OR: [Product_Meta_Image_where_or]
 }
 
 input Product_Meta_Image_alt_operator {
@@ -761,20 +1431,6 @@ input Product_Meta_Image_id_operator {
   exists: Boolean
 }
 
-input Product_Meta_Image_where_or {
-  alt: Product_Meta_Image_alt_operator
-  caption: Product_Meta_Image_caption_operator
-  updatedAt: Product_Meta_Image_updatedAt_operator
-  createdAt: Product_Meta_Image_createdAt_operator
-  url: Product_Meta_Image_url_operator
-  filename: Product_Meta_Image_filename_operator
-  mimeType: Product_Meta_Image_mimeType_operator
-  filesize: Product_Meta_Image_filesize_operator
-  width: Product_Meta_Image_width_operator
-  height: Product_Meta_Image_height_operator
-  id: Product_Meta_Image_id_operator
-}
-
 input Product_Meta_Image_where_and {
   alt: Product_Meta_Image_alt_operator
   caption: Product_Meta_Image_caption_operator
@@ -787,6 +1443,24 @@ input Product_Meta_Image_where_and {
   width: Product_Meta_Image_width_operator
   height: Product_Meta_Image_height_operator
   id: Product_Meta_Image_id_operator
+  AND: [Product_Meta_Image_where_and]
+  OR: [Product_Meta_Image_where_or]
+}
+
+input Product_Meta_Image_where_or {
+  alt: Product_Meta_Image_alt_operator
+  caption: Product_Meta_Image_caption_operator
+  updatedAt: Product_Meta_Image_updatedAt_operator
+  createdAt: Product_Meta_Image_createdAt_operator
+  url: Product_Meta_Image_url_operator
+  filename: Product_Meta_Image_filename_operator
+  mimeType: Product_Meta_Image_mimeType_operator
+  filesize: Product_Meta_Image_filesize_operator
+  width: Product_Meta_Image_width_operator
+  height: Product_Meta_Image_height_operator
+  id: Product_Meta_Image_id_operator
+  AND: [Product_Meta_Image_where_and]
+  OR: [Product_Meta_Image_where_or]
 }
 
 enum Product__status {
@@ -804,6 +1478,149 @@ enum Archive_PopulatedDocs_RelationTo {
 }
 
 union Archive_PopulatedDocs = Product
+
+type FormBlock {
+  form: Form
+  enableIntro: Boolean
+  introContent(depth: Int): JSON
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Form {
+  id: String
+  title: String!
+  fields: [Form_Fields!]
+  submitButtonLabel: String
+  confirmationType: Form_confirmationType
+  confirmationMessage(depth: Int): JSON
+  redirect: Form_Redirect
+  emails: [Form_Emails!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+union Form_Fields = Checkbox | Country | Email | Message | Number | Select | State | Text | Textarea
+
+type Checkbox {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  defaultValue: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Country {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Email {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Message {
+  message(depth: Int): JSON
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Number {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Select {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  options: [Select_Options!]
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Select_Options {
+  label: String
+  value: String
+  id: String
+}
+
+type State {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Text {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Textarea {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+enum Form_confirmationType {
+  message
+  redirect
+}
+
+type Form_Redirect {
+  url: String
+}
+
+type Form_Emails {
+  emailTo: String
+  cc: String
+  bcc: String
+  replyTo: String
+  emailFrom: String
+  subject: String
+  message(depth: Int): JSON
+  id: String
+}
 
 type Page_Meta {
   title: String
@@ -823,8 +1640,8 @@ input Page_Meta_Image_where {
   width: Page_Meta_Image_width_operator
   height: Page_Meta_Image_height_operator
   id: Page_Meta_Image_id_operator
-  OR: [Page_Meta_Image_where_or]
   AND: [Page_Meta_Image_where_and]
+  OR: [Page_Meta_Image_where_or]
 }
 
 input Page_Meta_Image_alt_operator {
@@ -941,20 +1758,6 @@ input Page_Meta_Image_id_operator {
   exists: Boolean
 }
 
-input Page_Meta_Image_where_or {
-  alt: Page_Meta_Image_alt_operator
-  caption: Page_Meta_Image_caption_operator
-  updatedAt: Page_Meta_Image_updatedAt_operator
-  createdAt: Page_Meta_Image_createdAt_operator
-  url: Page_Meta_Image_url_operator
-  filename: Page_Meta_Image_filename_operator
-  mimeType: Page_Meta_Image_mimeType_operator
-  filesize: Page_Meta_Image_filesize_operator
-  width: Page_Meta_Image_width_operator
-  height: Page_Meta_Image_height_operator
-  id: Page_Meta_Image_id_operator
-}
-
 input Page_Meta_Image_where_and {
   alt: Page_Meta_Image_alt_operator
   caption: Page_Meta_Image_caption_operator
@@ -967,6 +1770,24 @@ input Page_Meta_Image_where_and {
   width: Page_Meta_Image_width_operator
   height: Page_Meta_Image_height_operator
   id: Page_Meta_Image_id_operator
+  AND: [Page_Meta_Image_where_and]
+  OR: [Page_Meta_Image_where_or]
+}
+
+input Page_Meta_Image_where_or {
+  alt: Page_Meta_Image_alt_operator
+  caption: Page_Meta_Image_caption_operator
+  updatedAt: Page_Meta_Image_updatedAt_operator
+  createdAt: Page_Meta_Image_createdAt_operator
+  url: Page_Meta_Image_url_operator
+  filename: Page_Meta_Image_filename_operator
+  mimeType: Page_Meta_Image_mimeType_operator
+  filesize: Page_Meta_Image_filesize_operator
+  width: Page_Meta_Image_width_operator
+  height: Page_Meta_Image_height_operator
+  id: Page_Meta_Image_id_operator
+  AND: [Page_Meta_Image_where_and]
+  OR: [Page_Meta_Image_where_or]
 }
 
 enum Page__status {
@@ -976,16 +1797,16 @@ enum Page__status {
 
 type Pages {
   docs: [Page]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input Page_where {
@@ -998,6 +1819,7 @@ input Page_where {
   hero__links__link__reference: Page_hero__links__link__reference_Relation
   hero__links__link__url: Page_hero__links__link__url_operator
   hero__links__link__label: Page_hero__links__link__label_operator
+  hero__links__link__icon: Page_hero__links__link__icon_operator
   hero__links__link__appearance: Page_hero__links__link__appearance_operator
   hero__links__id: Page_hero__links__id_operator
   hero__media: Page_hero__media_operator
@@ -1009,8 +1831,8 @@ input Page_where {
   createdAt: Page_createdAt_operator
   _status: Page__status_operator
   id: Page_id_operator
-  OR: [Page_where_or]
   AND: [Page_where_and]
+  OR: [Page_where_or]
 }
 
 input Page_title_operator {
@@ -1047,6 +1869,7 @@ enum Page_hero__type_Input {
   highImpact
   mediumImpact
   lowImpact
+  customHero
 }
 
 input Page_hero__richText_operator {
@@ -1059,9 +1882,8 @@ input Page_hero__richText_operator {
 input Page_hero__links__link__type_operator {
   equals: Page_hero__links__link__type_Input
   not_equals: Page_hero__links__link__type_Input
-  in: [Page_hero__links__link__type_Input]
-  not_in: [Page_hero__links__link__type_Input]
-  all: [Page_hero__links__link__type_Input]
+  like: Page_hero__links__link__type_Input
+  contains: Page_hero__links__link__type_Input
   exists: Boolean
 }
 
@@ -1078,7 +1900,7 @@ input Page_hero__links__link__newTab_operator {
 
 input Page_hero__links__link__reference_Relation {
   relationTo: Page_hero__links__link__reference_Relation_RelationTo
-  value: String
+  value: JSON
 }
 
 enum Page_hero__links__link__reference_Relation_RelationTo {
@@ -1103,6 +1925,12 @@ input Page_hero__links__link__label_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input Page_hero__links__link__icon_operator {
+  equals: String
+  not_equals: String
+  exists: Boolean
 }
 
 input Page_hero__links__link__appearance_operator {
@@ -1219,29 +2047,6 @@ input Page_id_operator {
   exists: Boolean
 }
 
-input Page_where_or {
-  title: Page_title_operator
-  publishedOn: Page_publishedOn_operator
-  hero__type: Page_hero__type_operator
-  hero__richText: Page_hero__richText_operator
-  hero__links__link__type: Page_hero__links__link__type_operator
-  hero__links__link__newTab: Page_hero__links__link__newTab_operator
-  hero__links__link__reference: Page_hero__links__link__reference_Relation
-  hero__links__link__url: Page_hero__links__link__url_operator
-  hero__links__link__label: Page_hero__links__link__label_operator
-  hero__links__link__appearance: Page_hero__links__link__appearance_operator
-  hero__links__id: Page_hero__links__id_operator
-  hero__media: Page_hero__media_operator
-  slug: Page_slug_operator
-  meta__title: Page_meta__title_operator
-  meta__description: Page_meta__description_operator
-  meta__image: Page_meta__image_operator
-  updatedAt: Page_updatedAt_operator
-  createdAt: Page_createdAt_operator
-  _status: Page__status_operator
-  id: Page_id_operator
-}
-
 input Page_where_and {
   title: Page_title_operator
   publishedOn: Page_publishedOn_operator
@@ -1252,6 +2057,7 @@ input Page_where_and {
   hero__links__link__reference: Page_hero__links__link__reference_Relation
   hero__links__link__url: Page_hero__links__link__url_operator
   hero__links__link__label: Page_hero__links__link__label_operator
+  hero__links__link__icon: Page_hero__links__link__icon_operator
   hero__links__link__appearance: Page_hero__links__link__appearance_operator
   hero__links__id: Page_hero__links__id_operator
   hero__media: Page_hero__media_operator
@@ -1263,6 +2069,34 @@ input Page_where_and {
   createdAt: Page_createdAt_operator
   _status: Page__status_operator
   id: Page_id_operator
+  AND: [Page_where_and]
+  OR: [Page_where_or]
+}
+
+input Page_where_or {
+  title: Page_title_operator
+  publishedOn: Page_publishedOn_operator
+  hero__type: Page_hero__type_operator
+  hero__richText: Page_hero__richText_operator
+  hero__links__link__type: Page_hero__links__link__type_operator
+  hero__links__link__newTab: Page_hero__links__link__newTab_operator
+  hero__links__link__reference: Page_hero__links__link__reference_Relation
+  hero__links__link__url: Page_hero__links__link__url_operator
+  hero__links__link__label: Page_hero__links__link__label_operator
+  hero__links__link__icon: Page_hero__links__link__icon_operator
+  hero__links__link__appearance: Page_hero__links__link__appearance_operator
+  hero__links__id: Page_hero__links__id_operator
+  hero__media: Page_hero__media_operator
+  slug: Page_slug_operator
+  meta__title: Page_meta__title_operator
+  meta__description: Page_meta__description_operator
+  meta__image: Page_meta__image_operator
+  updatedAt: Page_updatedAt_operator
+  createdAt: Page_createdAt_operator
+  _status: Page__status_operator
+  id: Page_id_operator
+  AND: [Page_where_and]
+  OR: [Page_where_or]
 }
 
 type pagesDocAccess {
@@ -1468,6 +2302,7 @@ type PagesDocAccessFields_hero_links_link_Fields {
   reference: PagesDocAccessFields_hero_links_link_reference
   url: PagesDocAccessFields_hero_links_link_url
   label: PagesDocAccessFields_hero_links_link_label
+  icon: PagesDocAccessFields_hero_links_link_icon
   appearance: PagesDocAccessFields_hero_links_link_appearance
 }
 
@@ -1583,6 +2418,29 @@ type PagesDocAccessFields_hero_links_link_label_Update {
 }
 
 type PagesDocAccessFields_hero_links_link_label_Delete {
+  permission: Boolean!
+}
+
+type PagesDocAccessFields_hero_links_link_icon {
+  create: PagesDocAccessFields_hero_links_link_icon_Create
+  read: PagesDocAccessFields_hero_links_link_icon_Read
+  update: PagesDocAccessFields_hero_links_link_icon_Update
+  delete: PagesDocAccessFields_hero_links_link_icon_Delete
+}
+
+type PagesDocAccessFields_hero_links_link_icon_Create {
+  permission: Boolean!
+}
+
+type PagesDocAccessFields_hero_links_link_icon_Read {
+  permission: Boolean!
+}
+
+type PagesDocAccessFields_hero_links_link_icon_Update {
+  permission: Boolean!
+}
+
+type PagesDocAccessFields_hero_links_link_icon_Delete {
   permission: Boolean!
 }
 
@@ -1952,6 +2810,7 @@ type PageVersion {
   version: PageVersion_Version
   createdAt: DateTime
   updatedAt: DateTime
+  latest: Boolean
   id: String
 }
 
@@ -1979,6 +2838,7 @@ enum PageVersion_Version_Hero_type {
   highImpact
   mediumImpact
   lowImpact
+  customHero
 }
 
 type PageVersion_Version_Hero_Links {
@@ -1992,6 +2852,7 @@ type PageVersion_Version_Hero_Links_Link {
   reference: PageVersion_Version_Hero_Links_Link_Reference_Relationship
   url: String
   label: String
+  icon(where: PageVersion_Version_Hero_Links_Link_Icon_where): Media
   appearance: PageVersion_Version_Hero_Links_Link_appearance
 }
 
@@ -2011,6 +2872,168 @@ enum PageVersion_Version_Hero_Links_Link_Reference_RelationTo {
 
 union PageVersion_Version_Hero_Links_Link_Reference = Page
 
+input PageVersion_Version_Hero_Links_Link_Icon_where {
+  alt: PageVersion_Version_Hero_Links_Link_Icon_alt_operator
+  caption: PageVersion_Version_Hero_Links_Link_Icon_caption_operator
+  updatedAt: PageVersion_Version_Hero_Links_Link_Icon_updatedAt_operator
+  createdAt: PageVersion_Version_Hero_Links_Link_Icon_createdAt_operator
+  url: PageVersion_Version_Hero_Links_Link_Icon_url_operator
+  filename: PageVersion_Version_Hero_Links_Link_Icon_filename_operator
+  mimeType: PageVersion_Version_Hero_Links_Link_Icon_mimeType_operator
+  filesize: PageVersion_Version_Hero_Links_Link_Icon_filesize_operator
+  width: PageVersion_Version_Hero_Links_Link_Icon_width_operator
+  height: PageVersion_Version_Hero_Links_Link_Icon_height_operator
+  id: PageVersion_Version_Hero_Links_Link_Icon_id_operator
+  AND: [PageVersion_Version_Hero_Links_Link_Icon_where_and]
+  OR: [PageVersion_Version_Hero_Links_Link_Icon_where_or]
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_where_and {
+  alt: PageVersion_Version_Hero_Links_Link_Icon_alt_operator
+  caption: PageVersion_Version_Hero_Links_Link_Icon_caption_operator
+  updatedAt: PageVersion_Version_Hero_Links_Link_Icon_updatedAt_operator
+  createdAt: PageVersion_Version_Hero_Links_Link_Icon_createdAt_operator
+  url: PageVersion_Version_Hero_Links_Link_Icon_url_operator
+  filename: PageVersion_Version_Hero_Links_Link_Icon_filename_operator
+  mimeType: PageVersion_Version_Hero_Links_Link_Icon_mimeType_operator
+  filesize: PageVersion_Version_Hero_Links_Link_Icon_filesize_operator
+  width: PageVersion_Version_Hero_Links_Link_Icon_width_operator
+  height: PageVersion_Version_Hero_Links_Link_Icon_height_operator
+  id: PageVersion_Version_Hero_Links_Link_Icon_id_operator
+  AND: [PageVersion_Version_Hero_Links_Link_Icon_where_and]
+  OR: [PageVersion_Version_Hero_Links_Link_Icon_where_or]
+}
+
+input PageVersion_Version_Hero_Links_Link_Icon_where_or {
+  alt: PageVersion_Version_Hero_Links_Link_Icon_alt_operator
+  caption: PageVersion_Version_Hero_Links_Link_Icon_caption_operator
+  updatedAt: PageVersion_Version_Hero_Links_Link_Icon_updatedAt_operator
+  createdAt: PageVersion_Version_Hero_Links_Link_Icon_createdAt_operator
+  url: PageVersion_Version_Hero_Links_Link_Icon_url_operator
+  filename: PageVersion_Version_Hero_Links_Link_Icon_filename_operator
+  mimeType: PageVersion_Version_Hero_Links_Link_Icon_mimeType_operator
+  filesize: PageVersion_Version_Hero_Links_Link_Icon_filesize_operator
+  width: PageVersion_Version_Hero_Links_Link_Icon_width_operator
+  height: PageVersion_Version_Hero_Links_Link_Icon_height_operator
+  id: PageVersion_Version_Hero_Links_Link_Icon_id_operator
+  AND: [PageVersion_Version_Hero_Links_Link_Icon_where_and]
+  OR: [PageVersion_Version_Hero_Links_Link_Icon_where_or]
+}
+
 enum PageVersion_Version_Hero_Links_Link_appearance {
   default
   primary
@@ -2029,8 +3052,8 @@ input PageVersion_Version_Hero_Media_where {
   width: PageVersion_Version_Hero_Media_width_operator
   height: PageVersion_Version_Hero_Media_height_operator
   id: PageVersion_Version_Hero_Media_id_operator
-  OR: [PageVersion_Version_Hero_Media_where_or]
   AND: [PageVersion_Version_Hero_Media_where_and]
+  OR: [PageVersion_Version_Hero_Media_where_or]
 }
 
 input PageVersion_Version_Hero_Media_alt_operator {
@@ -2147,20 +3170,6 @@ input PageVersion_Version_Hero_Media_id_operator {
   exists: Boolean
 }
 
-input PageVersion_Version_Hero_Media_where_or {
-  alt: PageVersion_Version_Hero_Media_alt_operator
-  caption: PageVersion_Version_Hero_Media_caption_operator
-  updatedAt: PageVersion_Version_Hero_Media_updatedAt_operator
-  createdAt: PageVersion_Version_Hero_Media_createdAt_operator
-  url: PageVersion_Version_Hero_Media_url_operator
-  filename: PageVersion_Version_Hero_Media_filename_operator
-  mimeType: PageVersion_Version_Hero_Media_mimeType_operator
-  filesize: PageVersion_Version_Hero_Media_filesize_operator
-  width: PageVersion_Version_Hero_Media_width_operator
-  height: PageVersion_Version_Hero_Media_height_operator
-  id: PageVersion_Version_Hero_Media_id_operator
-}
-
 input PageVersion_Version_Hero_Media_where_and {
   alt: PageVersion_Version_Hero_Media_alt_operator
   caption: PageVersion_Version_Hero_Media_caption_operator
@@ -2173,9 +3182,27 @@ input PageVersion_Version_Hero_Media_where_and {
   width: PageVersion_Version_Hero_Media_width_operator
   height: PageVersion_Version_Hero_Media_height_operator
   id: PageVersion_Version_Hero_Media_id_operator
+  AND: [PageVersion_Version_Hero_Media_where_and]
+  OR: [PageVersion_Version_Hero_Media_where_or]
 }
 
-union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive
+input PageVersion_Version_Hero_Media_where_or {
+  alt: PageVersion_Version_Hero_Media_alt_operator
+  caption: PageVersion_Version_Hero_Media_caption_operator
+  updatedAt: PageVersion_Version_Hero_Media_updatedAt_operator
+  createdAt: PageVersion_Version_Hero_Media_createdAt_operator
+  url: PageVersion_Version_Hero_Media_url_operator
+  filename: PageVersion_Version_Hero_Media_filename_operator
+  mimeType: PageVersion_Version_Hero_Media_mimeType_operator
+  filesize: PageVersion_Version_Hero_Media_filesize_operator
+  width: PageVersion_Version_Hero_Media_width_operator
+  height: PageVersion_Version_Hero_Media_height_operator
+  id: PageVersion_Version_Hero_Media_id_operator
+  AND: [PageVersion_Version_Hero_Media_where_and]
+  OR: [PageVersion_Version_Hero_Media_where_or]
+}
+
+union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive | FormBlock
 
 type PageVersion_Version_Meta {
   title: String
@@ -2195,8 +3222,8 @@ input PageVersion_Version_Meta_Image_where {
   width: PageVersion_Version_Meta_Image_width_operator
   height: PageVersion_Version_Meta_Image_height_operator
   id: PageVersion_Version_Meta_Image_id_operator
-  OR: [PageVersion_Version_Meta_Image_where_or]
   AND: [PageVersion_Version_Meta_Image_where_and]
+  OR: [PageVersion_Version_Meta_Image_where_or]
 }
 
 input PageVersion_Version_Meta_Image_alt_operator {
@@ -2313,20 +3340,6 @@ input PageVersion_Version_Meta_Image_id_operator {
   exists: Boolean
 }
 
-input PageVersion_Version_Meta_Image_where_or {
-  alt: PageVersion_Version_Meta_Image_alt_operator
-  caption: PageVersion_Version_Meta_Image_caption_operator
-  updatedAt: PageVersion_Version_Meta_Image_updatedAt_operator
-  createdAt: PageVersion_Version_Meta_Image_createdAt_operator
-  url: PageVersion_Version_Meta_Image_url_operator
-  filename: PageVersion_Version_Meta_Image_filename_operator
-  mimeType: PageVersion_Version_Meta_Image_mimeType_operator
-  filesize: PageVersion_Version_Meta_Image_filesize_operator
-  width: PageVersion_Version_Meta_Image_width_operator
-  height: PageVersion_Version_Meta_Image_height_operator
-  id: PageVersion_Version_Meta_Image_id_operator
-}
-
 input PageVersion_Version_Meta_Image_where_and {
   alt: PageVersion_Version_Meta_Image_alt_operator
   caption: PageVersion_Version_Meta_Image_caption_operator
@@ -2339,6 +3352,24 @@ input PageVersion_Version_Meta_Image_where_and {
   width: PageVersion_Version_Meta_Image_width_operator
   height: PageVersion_Version_Meta_Image_height_operator
   id: PageVersion_Version_Meta_Image_id_operator
+  AND: [PageVersion_Version_Meta_Image_where_and]
+  OR: [PageVersion_Version_Meta_Image_where_or]
+}
+
+input PageVersion_Version_Meta_Image_where_or {
+  alt: PageVersion_Version_Meta_Image_alt_operator
+  caption: PageVersion_Version_Meta_Image_caption_operator
+  updatedAt: PageVersion_Version_Meta_Image_updatedAt_operator
+  createdAt: PageVersion_Version_Meta_Image_createdAt_operator
+  url: PageVersion_Version_Meta_Image_url_operator
+  filename: PageVersion_Version_Meta_Image_filename_operator
+  mimeType: PageVersion_Version_Meta_Image_mimeType_operator
+  filesize: PageVersion_Version_Meta_Image_filesize_operator
+  width: PageVersion_Version_Meta_Image_width_operator
+  height: PageVersion_Version_Meta_Image_height_operator
+  id: PageVersion_Version_Meta_Image_id_operator
+  AND: [PageVersion_Version_Meta_Image_where_and]
+  OR: [PageVersion_Version_Meta_Image_where_or]
 }
 
 enum PageVersion_Version__status {
@@ -2348,16 +3379,16 @@ enum PageVersion_Version__status {
 
 type versionsPages {
   docs: [PageVersion]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input versionsPage_where {
@@ -2371,6 +3402,7 @@ input versionsPage_where {
   version__hero__links__link__reference: versionsPage_version__hero__links__link__reference_Relation
   version__hero__links__link__url: versionsPage_version__hero__links__link__url_operator
   version__hero__links__link__label: versionsPage_version__hero__links__link__label_operator
+  version__hero__links__link__icon: versionsPage_version__hero__links__link__icon_operator
   version__hero__links__link__appearance: versionsPage_version__hero__links__link__appearance_operator
   version__hero__links__id: versionsPage_version__hero__links__id_operator
   version__hero__media: versionsPage_version__hero__media_operator
@@ -2383,17 +3415,18 @@ input versionsPage_where {
   version___status: versionsPage_version___status_operator
   createdAt: versionsPage_createdAt_operator
   updatedAt: versionsPage_updatedAt_operator
+  latest: versionsPage_latest_operator
   id: versionsPage_id_operator
-  OR: [versionsPage_where_or]
   AND: [versionsPage_where_and]
+  OR: [versionsPage_where_or]
 }
 
 input versionsPage_parent_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -2431,6 +3464,7 @@ enum versionsPage_version__hero__type_Input {
   highImpact
   mediumImpact
   lowImpact
+  customHero
 }
 
 input versionsPage_version__hero__richText_operator {
@@ -2443,9 +3477,8 @@ input versionsPage_version__hero__richText_operator {
 input versionsPage_version__hero__links__link__type_operator {
   equals: versionsPage_version__hero__links__link__type_Input
   not_equals: versionsPage_version__hero__links__link__type_Input
-  in: [versionsPage_version__hero__links__link__type_Input]
-  not_in: [versionsPage_version__hero__links__link__type_Input]
-  all: [versionsPage_version__hero__links__link__type_Input]
+  like: versionsPage_version__hero__links__link__type_Input
+  contains: versionsPage_version__hero__links__link__type_Input
   exists: Boolean
 }
 
@@ -2462,7 +3495,7 @@ input versionsPage_version__hero__links__link__newTab_operator {
 
 input versionsPage_version__hero__links__link__reference_Relation {
   relationTo: versionsPage_version__hero__links__link__reference_Relation_RelationTo
-  value: String
+  value: JSON
 }
 
 enum versionsPage_version__hero__links__link__reference_Relation_RelationTo {
@@ -2487,6 +3520,12 @@ input versionsPage_version__hero__links__link__label_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input versionsPage_version__hero__links__link__icon_operator {
+  equals: String
+  not_equals: String
+  exists: Boolean
 }
 
 input versionsPage_version__hero__links__link__appearance_operator {
@@ -2614,6 +3653,12 @@ input versionsPage_updatedAt_operator {
   exists: Boolean
 }
 
+input versionsPage_latest_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
 input versionsPage_id_operator {
   equals: String
   not_equals: String
@@ -2623,32 +3668,6 @@ input versionsPage_id_operator {
   not_in: [String]
   all: [String]
   exists: Boolean
-}
-
-input versionsPage_where_or {
-  parent: versionsPage_parent_operator
-  version__title: versionsPage_version__title_operator
-  version__publishedOn: versionsPage_version__publishedOn_operator
-  version__hero__type: versionsPage_version__hero__type_operator
-  version__hero__richText: versionsPage_version__hero__richText_operator
-  version__hero__links__link__type: versionsPage_version__hero__links__link__type_operator
-  version__hero__links__link__newTab: versionsPage_version__hero__links__link__newTab_operator
-  version__hero__links__link__reference: versionsPage_version__hero__links__link__reference_Relation
-  version__hero__links__link__url: versionsPage_version__hero__links__link__url_operator
-  version__hero__links__link__label: versionsPage_version__hero__links__link__label_operator
-  version__hero__links__link__appearance: versionsPage_version__hero__links__link__appearance_operator
-  version__hero__links__id: versionsPage_version__hero__links__id_operator
-  version__hero__media: versionsPage_version__hero__media_operator
-  version__slug: versionsPage_version__slug_operator
-  version__meta__title: versionsPage_version__meta__title_operator
-  version__meta__description: versionsPage_version__meta__description_operator
-  version__meta__image: versionsPage_version__meta__image_operator
-  version__updatedAt: versionsPage_version__updatedAt_operator
-  version__createdAt: versionsPage_version__createdAt_operator
-  version___status: versionsPage_version___status_operator
-  createdAt: versionsPage_createdAt_operator
-  updatedAt: versionsPage_updatedAt_operator
-  id: versionsPage_id_operator
 }
 
 input versionsPage_where_and {
@@ -2662,6 +3681,7 @@ input versionsPage_where_and {
   version__hero__links__link__reference: versionsPage_version__hero__links__link__reference_Relation
   version__hero__links__link__url: versionsPage_version__hero__links__link__url_operator
   version__hero__links__link__label: versionsPage_version__hero__links__link__label_operator
+  version__hero__links__link__icon: versionsPage_version__hero__links__link__icon_operator
   version__hero__links__link__appearance: versionsPage_version__hero__links__link__appearance_operator
   version__hero__links__id: versionsPage_version__hero__links__id_operator
   version__hero__media: versionsPage_version__hero__media_operator
@@ -2674,21 +3694,54 @@ input versionsPage_where_and {
   version___status: versionsPage_version___status_operator
   createdAt: versionsPage_createdAt_operator
   updatedAt: versionsPage_updatedAt_operator
+  latest: versionsPage_latest_operator
   id: versionsPage_id_operator
+  AND: [versionsPage_where_and]
+  OR: [versionsPage_where_or]
+}
+
+input versionsPage_where_or {
+  parent: versionsPage_parent_operator
+  version__title: versionsPage_version__title_operator
+  version__publishedOn: versionsPage_version__publishedOn_operator
+  version__hero__type: versionsPage_version__hero__type_operator
+  version__hero__richText: versionsPage_version__hero__richText_operator
+  version__hero__links__link__type: versionsPage_version__hero__links__link__type_operator
+  version__hero__links__link__newTab: versionsPage_version__hero__links__link__newTab_operator
+  version__hero__links__link__reference: versionsPage_version__hero__links__link__reference_Relation
+  version__hero__links__link__url: versionsPage_version__hero__links__link__url_operator
+  version__hero__links__link__label: versionsPage_version__hero__links__link__label_operator
+  version__hero__links__link__icon: versionsPage_version__hero__links__link__icon_operator
+  version__hero__links__link__appearance: versionsPage_version__hero__links__link__appearance_operator
+  version__hero__links__id: versionsPage_version__hero__links__id_operator
+  version__hero__media: versionsPage_version__hero__media_operator
+  version__slug: versionsPage_version__slug_operator
+  version__meta__title: versionsPage_version__meta__title_operator
+  version__meta__description: versionsPage_version__meta__description_operator
+  version__meta__image: versionsPage_version__meta__image_operator
+  version__updatedAt: versionsPage_version__updatedAt_operator
+  version__createdAt: versionsPage_version__createdAt_operator
+  version___status: versionsPage_version___status_operator
+  createdAt: versionsPage_createdAt_operator
+  updatedAt: versionsPage_updatedAt_operator
+  latest: versionsPage_latest_operator
+  id: versionsPage_id_operator
+  AND: [versionsPage_where_and]
+  OR: [versionsPage_where_or]
 }
 
 type Products {
   docs: [Product]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input Product_where {
@@ -2698,6 +3751,7 @@ input Product_where {
   priceJSON: Product_priceJSON_operator
   enablePaywall: Product_enablePaywall_operator
   categories: Product_categories_operator
+  relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
   skipSync: Product_skipSync_operator
   meta__title: Product_meta__title_operator
@@ -2707,8 +3761,8 @@ input Product_where {
   createdAt: Product_createdAt_operator
   _status: Product__status_operator
   id: Product_id_operator
-  OR: [Product_where_or]
   AND: [Product_where_and]
+  OR: [Product_where_or]
 }
 
 input Product_title_operator {
@@ -2758,11 +3812,20 @@ input Product_enablePaywall_operator {
 }
 
 input Product_categories_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Product_relatedProducts_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -2855,24 +3918,6 @@ input Product_id_operator {
   exists: Boolean
 }
 
-input Product_where_or {
-  title: Product_title_operator
-  publishedOn: Product_publishedOn_operator
-  stripeProductID: Product_stripeProductID_operator
-  priceJSON: Product_priceJSON_operator
-  enablePaywall: Product_enablePaywall_operator
-  categories: Product_categories_operator
-  slug: Product_slug_operator
-  skipSync: Product_skipSync_operator
-  meta__title: Product_meta__title_operator
-  meta__description: Product_meta__description_operator
-  meta__image: Product_meta__image_operator
-  updatedAt: Product_updatedAt_operator
-  createdAt: Product_createdAt_operator
-  _status: Product__status_operator
-  id: Product_id_operator
-}
-
 input Product_where_and {
   title: Product_title_operator
   publishedOn: Product_publishedOn_operator
@@ -2880,6 +3925,7 @@ input Product_where_and {
   priceJSON: Product_priceJSON_operator
   enablePaywall: Product_enablePaywall_operator
   categories: Product_categories_operator
+  relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
   skipSync: Product_skipSync_operator
   meta__title: Product_meta__title_operator
@@ -2889,6 +3935,29 @@ input Product_where_and {
   createdAt: Product_createdAt_operator
   _status: Product__status_operator
   id: Product_id_operator
+  AND: [Product_where_and]
+  OR: [Product_where_or]
+}
+
+input Product_where_or {
+  title: Product_title_operator
+  publishedOn: Product_publishedOn_operator
+  stripeProductID: Product_stripeProductID_operator
+  priceJSON: Product_priceJSON_operator
+  enablePaywall: Product_enablePaywall_operator
+  categories: Product_categories_operator
+  relatedProducts: Product_relatedProducts_operator
+  slug: Product_slug_operator
+  skipSync: Product_skipSync_operator
+  meta__title: Product_meta__title_operator
+  meta__description: Product_meta__description_operator
+  meta__image: Product_meta__image_operator
+  updatedAt: Product_updatedAt_operator
+  createdAt: Product_createdAt_operator
+  _status: Product__status_operator
+  id: Product_id_operator
+  AND: [Product_where_and]
+  OR: [Product_where_or]
 }
 
 type productsDocAccess {
@@ -2909,6 +3978,7 @@ type ProductsDocAccessFields {
   enablePaywall: ProductsDocAccessFields_enablePaywall
   paywall: ProductsDocAccessFields_paywall
   categories: ProductsDocAccessFields_categories
+  relatedProducts: ProductsDocAccessFields_relatedProducts
   slug: ProductsDocAccessFields_slug
   skipSync: ProductsDocAccessFields_skipSync
   meta: ProductsDocAccessFields_meta
@@ -3098,6 +4168,29 @@ type ProductsDocAccessFields_categories_Update {
 }
 
 type ProductsDocAccessFields_categories_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_relatedProducts {
+  create: ProductsDocAccessFields_relatedProducts_Create
+  read: ProductsDocAccessFields_relatedProducts_Read
+  update: ProductsDocAccessFields_relatedProducts_Update
+  delete: ProductsDocAccessFields_relatedProducts_Delete
+}
+
+type ProductsDocAccessFields_relatedProducts_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_relatedProducts_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_relatedProducts_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_relatedProducts_Delete {
   permission: Boolean!
 }
 
@@ -3393,18 +4486,20 @@ type ProductVersion {
   version: ProductVersion_Version
   createdAt: DateTime
   updatedAt: DateTime
+  latest: Boolean
   id: String
 }
 
 type ProductVersion_Version {
   title: String
   publishedOn: DateTime
-  layout: [ProductVersion_Version_Layout!]!
+  layout: [ProductVersion_Version_Layout!]
   stripeProductID: String
   priceJSON: String
   enablePaywall: Boolean
   paywall: [ProductVersion_Version_Paywall!]
   categories: [Category!]
+  relatedProducts: [Product!]
   slug: String
   skipSync: Boolean
   meta: ProductVersion_Version_Meta
@@ -3435,8 +4530,8 @@ input ProductVersion_Version_Meta_Image_where {
   width: ProductVersion_Version_Meta_Image_width_operator
   height: ProductVersion_Version_Meta_Image_height_operator
   id: ProductVersion_Version_Meta_Image_id_operator
-  OR: [ProductVersion_Version_Meta_Image_where_or]
   AND: [ProductVersion_Version_Meta_Image_where_and]
+  OR: [ProductVersion_Version_Meta_Image_where_or]
 }
 
 input ProductVersion_Version_Meta_Image_alt_operator {
@@ -3553,20 +4648,6 @@ input ProductVersion_Version_Meta_Image_id_operator {
   exists: Boolean
 }
 
-input ProductVersion_Version_Meta_Image_where_or {
-  alt: ProductVersion_Version_Meta_Image_alt_operator
-  caption: ProductVersion_Version_Meta_Image_caption_operator
-  updatedAt: ProductVersion_Version_Meta_Image_updatedAt_operator
-  createdAt: ProductVersion_Version_Meta_Image_createdAt_operator
-  url: ProductVersion_Version_Meta_Image_url_operator
-  filename: ProductVersion_Version_Meta_Image_filename_operator
-  mimeType: ProductVersion_Version_Meta_Image_mimeType_operator
-  filesize: ProductVersion_Version_Meta_Image_filesize_operator
-  width: ProductVersion_Version_Meta_Image_width_operator
-  height: ProductVersion_Version_Meta_Image_height_operator
-  id: ProductVersion_Version_Meta_Image_id_operator
-}
-
 input ProductVersion_Version_Meta_Image_where_and {
   alt: ProductVersion_Version_Meta_Image_alt_operator
   caption: ProductVersion_Version_Meta_Image_caption_operator
@@ -3579,6 +4660,24 @@ input ProductVersion_Version_Meta_Image_where_and {
   width: ProductVersion_Version_Meta_Image_width_operator
   height: ProductVersion_Version_Meta_Image_height_operator
   id: ProductVersion_Version_Meta_Image_id_operator
+  AND: [ProductVersion_Version_Meta_Image_where_and]
+  OR: [ProductVersion_Version_Meta_Image_where_or]
+}
+
+input ProductVersion_Version_Meta_Image_where_or {
+  alt: ProductVersion_Version_Meta_Image_alt_operator
+  caption: ProductVersion_Version_Meta_Image_caption_operator
+  updatedAt: ProductVersion_Version_Meta_Image_updatedAt_operator
+  createdAt: ProductVersion_Version_Meta_Image_createdAt_operator
+  url: ProductVersion_Version_Meta_Image_url_operator
+  filename: ProductVersion_Version_Meta_Image_filename_operator
+  mimeType: ProductVersion_Version_Meta_Image_mimeType_operator
+  filesize: ProductVersion_Version_Meta_Image_filesize_operator
+  width: ProductVersion_Version_Meta_Image_width_operator
+  height: ProductVersion_Version_Meta_Image_height_operator
+  id: ProductVersion_Version_Meta_Image_id_operator
+  AND: [ProductVersion_Version_Meta_Image_where_and]
+  OR: [ProductVersion_Version_Meta_Image_where_or]
 }
 
 enum ProductVersion_Version__status {
@@ -3588,16 +4687,16 @@ enum ProductVersion_Version__status {
 
 type versionsProducts {
   docs: [ProductVersion]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input versionsProduct_where {
@@ -3608,6 +4707,7 @@ input versionsProduct_where {
   version__priceJSON: versionsProduct_version__priceJSON_operator
   version__enablePaywall: versionsProduct_version__enablePaywall_operator
   version__categories: versionsProduct_version__categories_operator
+  version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__meta__title: versionsProduct_version__meta__title_operator
@@ -3618,17 +4718,18 @@ input versionsProduct_where {
   version___status: versionsProduct_version___status_operator
   createdAt: versionsProduct_createdAt_operator
   updatedAt: versionsProduct_updatedAt_operator
+  latest: versionsProduct_latest_operator
   id: versionsProduct_id_operator
-  OR: [versionsProduct_where_or]
   AND: [versionsProduct_where_and]
+  OR: [versionsProduct_where_or]
 }
 
 input versionsProduct_parent_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -3679,11 +4780,20 @@ input versionsProduct_version__enablePaywall_operator {
 }
 
 input versionsProduct_version__categories_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsProduct_version__relatedProducts_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -3787,6 +4897,12 @@ input versionsProduct_updatedAt_operator {
   exists: Boolean
 }
 
+input versionsProduct_latest_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
 input versionsProduct_id_operator {
   equals: String
   not_equals: String
@@ -3798,27 +4914,6 @@ input versionsProduct_id_operator {
   exists: Boolean
 }
 
-input versionsProduct_where_or {
-  parent: versionsProduct_parent_operator
-  version__title: versionsProduct_version__title_operator
-  version__publishedOn: versionsProduct_version__publishedOn_operator
-  version__stripeProductID: versionsProduct_version__stripeProductID_operator
-  version__priceJSON: versionsProduct_version__priceJSON_operator
-  version__enablePaywall: versionsProduct_version__enablePaywall_operator
-  version__categories: versionsProduct_version__categories_operator
-  version__slug: versionsProduct_version__slug_operator
-  version__skipSync: versionsProduct_version__skipSync_operator
-  version__meta__title: versionsProduct_version__meta__title_operator
-  version__meta__description: versionsProduct_version__meta__description_operator
-  version__meta__image: versionsProduct_version__meta__image_operator
-  version__updatedAt: versionsProduct_version__updatedAt_operator
-  version__createdAt: versionsProduct_version__createdAt_operator
-  version___status: versionsProduct_version___status_operator
-  createdAt: versionsProduct_createdAt_operator
-  updatedAt: versionsProduct_updatedAt_operator
-  id: versionsProduct_id_operator
-}
-
 input versionsProduct_where_and {
   parent: versionsProduct_parent_operator
   version__title: versionsProduct_version__title_operator
@@ -3827,6 +4922,7 @@ input versionsProduct_where_and {
   version__priceJSON: versionsProduct_version__priceJSON_operator
   version__enablePaywall: versionsProduct_version__enablePaywall_operator
   version__categories: versionsProduct_version__categories_operator
+  version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
   version__skipSync: versionsProduct_version__skipSync_operator
   version__meta__title: versionsProduct_version__meta__title_operator
@@ -3837,7 +4933,35 @@ input versionsProduct_where_and {
   version___status: versionsProduct_version___status_operator
   createdAt: versionsProduct_createdAt_operator
   updatedAt: versionsProduct_updatedAt_operator
+  latest: versionsProduct_latest_operator
   id: versionsProduct_id_operator
+  AND: [versionsProduct_where_and]
+  OR: [versionsProduct_where_or]
+}
+
+input versionsProduct_where_or {
+  parent: versionsProduct_parent_operator
+  version__title: versionsProduct_version__title_operator
+  version__publishedOn: versionsProduct_version__publishedOn_operator
+  version__stripeProductID: versionsProduct_version__stripeProductID_operator
+  version__priceJSON: versionsProduct_version__priceJSON_operator
+  version__enablePaywall: versionsProduct_version__enablePaywall_operator
+  version__categories: versionsProduct_version__categories_operator
+  version__relatedProducts: versionsProduct_version__relatedProducts_operator
+  version__slug: versionsProduct_version__slug_operator
+  version__skipSync: versionsProduct_version__skipSync_operator
+  version__meta__title: versionsProduct_version__meta__title_operator
+  version__meta__description: versionsProduct_version__meta__description_operator
+  version__meta__image: versionsProduct_version__meta__image_operator
+  version__updatedAt: versionsProduct_version__updatedAt_operator
+  version__createdAt: versionsProduct_version__createdAt_operator
+  version___status: versionsProduct_version___status_operator
+  createdAt: versionsProduct_createdAt_operator
+  updatedAt: versionsProduct_updatedAt_operator
+  latest: versionsProduct_latest_operator
+  id: versionsProduct_id_operator
+  AND: [versionsProduct_where_and]
+  OR: [versionsProduct_where_or]
 }
 
 type Order {
@@ -3899,16 +5023,16 @@ type Order_Items {
 
 type Orders {
   docs: [Order]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input Order_where {
@@ -3922,16 +5046,16 @@ input Order_where {
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
-  OR: [Order_where_or]
   AND: [Order_where_and]
+  OR: [Order_where_or]
 }
 
 input Order_orderedBy_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -3956,11 +5080,11 @@ input Order_total_operator {
 }
 
 input Order_items__product_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
 }
 
 input Order_items__price_operator {
@@ -4027,19 +5151,6 @@ input Order_id_operator {
   exists: Boolean
 }
 
-input Order_where_or {
-  orderedBy: Order_orderedBy_operator
-  stripePaymentIntentID: Order_stripePaymentIntentID_operator
-  total: Order_total_operator
-  items__product: Order_items__product_operator
-  items__price: Order_items__price_operator
-  items__quantity: Order_items__quantity_operator
-  items__id: Order_items__id_operator
-  updatedAt: Order_updatedAt_operator
-  createdAt: Order_createdAt_operator
-  id: Order_id_operator
-}
-
 input Order_where_and {
   orderedBy: Order_orderedBy_operator
   stripePaymentIntentID: Order_stripePaymentIntentID_operator
@@ -4051,6 +5162,23 @@ input Order_where_and {
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
+}
+
+input Order_where_or {
+  orderedBy: Order_orderedBy_operator
+  stripePaymentIntentID: Order_stripePaymentIntentID_operator
+  total: Order_total_operator
+  items__product: Order_items__product_operator
+  items__price: Order_items__price_operator
+  items__quantity: Order_items__quantity_operator
+  items__id: Order_items__id_operator
+  updatedAt: Order_updatedAt_operator
+  createdAt: Order_createdAt_operator
+  id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
 }
 
 type ordersDocAccess {
@@ -4330,16 +5458,16 @@ type OrdersDeleteDocAccess {
 
 type allMedia {
   docs: [Media]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input Media_where {
@@ -4354,8 +5482,8 @@ input Media_where {
   width: Media_width_operator
   height: Media_height_operator
   id: Media_id_operator
-  OR: [Media_where_or]
   AND: [Media_where_and]
+  OR: [Media_where_or]
 }
 
 input Media_alt_operator {
@@ -4472,20 +5600,6 @@ input Media_id_operator {
   exists: Boolean
 }
 
-input Media_where_or {
-  alt: Media_alt_operator
-  caption: Media_caption_operator
-  updatedAt: Media_updatedAt_operator
-  createdAt: Media_createdAt_operator
-  url: Media_url_operator
-  filename: Media_filename_operator
-  mimeType: Media_mimeType_operator
-  filesize: Media_filesize_operator
-  width: Media_width_operator
-  height: Media_height_operator
-  id: Media_id_operator
-}
-
 input Media_where_and {
   alt: Media_alt_operator
   caption: Media_caption_operator
@@ -4498,6 +5612,24 @@ input Media_where_and {
   width: Media_width_operator
   height: Media_height_operator
   id: Media_id_operator
+  AND: [Media_where_and]
+  OR: [Media_where_or]
+}
+
+input Media_where_or {
+  alt: Media_alt_operator
+  caption: Media_caption_operator
+  updatedAt: Media_updatedAt_operator
+  createdAt: Media_createdAt_operator
+  url: Media_url_operator
+  filename: Media_filename_operator
+  mimeType: Media_mimeType_operator
+  filesize: Media_filesize_operator
+  width: Media_width_operator
+  height: Media_height_operator
+  id: Media_id_operator
+  AND: [Media_where_and]
+  OR: [Media_where_or]
 }
 
 type mediaDocAccess {
@@ -4773,20 +5905,21 @@ type MediaDeleteDocAccess {
 
 type Categories {
   docs: [Category]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input Category_where {
   title: Category_title_operator
+  media: Category_media_operator
   parent: Category_parent_operator
   breadcrumbs__doc: Category_breadcrumbs__doc_operator
   breadcrumbs__url: Category_breadcrumbs__url_operator
@@ -4795,8 +5928,8 @@ input Category_where {
   updatedAt: Category_updatedAt_operator
   createdAt: Category_createdAt_operator
   id: Category_id_operator
-  OR: [Category_where_or]
   AND: [Category_where_and]
+  OR: [Category_where_or]
 }
 
 input Category_title_operator {
@@ -4807,24 +5940,29 @@ input Category_title_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input Category_media_operator {
+  equals: String
+  not_equals: String
   exists: Boolean
 }
 
 input Category_parent_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
 input Category_breadcrumbs__doc_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -4894,20 +6032,9 @@ input Category_id_operator {
   exists: Boolean
 }
 
-input Category_where_or {
-  title: Category_title_operator
-  parent: Category_parent_operator
-  breadcrumbs__doc: Category_breadcrumbs__doc_operator
-  breadcrumbs__url: Category_breadcrumbs__url_operator
-  breadcrumbs__label: Category_breadcrumbs__label_operator
-  breadcrumbs__id: Category_breadcrumbs__id_operator
-  updatedAt: Category_updatedAt_operator
-  createdAt: Category_createdAt_operator
-  id: Category_id_operator
-}
-
 input Category_where_and {
   title: Category_title_operator
+  media: Category_media_operator
   parent: Category_parent_operator
   breadcrumbs__doc: Category_breadcrumbs__doc_operator
   breadcrumbs__url: Category_breadcrumbs__url_operator
@@ -4916,6 +6043,23 @@ input Category_where_and {
   updatedAt: Category_updatedAt_operator
   createdAt: Category_createdAt_operator
   id: Category_id_operator
+  AND: [Category_where_and]
+  OR: [Category_where_or]
+}
+
+input Category_where_or {
+  title: Category_title_operator
+  media: Category_media_operator
+  parent: Category_parent_operator
+  breadcrumbs__doc: Category_breadcrumbs__doc_operator
+  breadcrumbs__url: Category_breadcrumbs__url_operator
+  breadcrumbs__label: Category_breadcrumbs__label_operator
+  breadcrumbs__id: Category_breadcrumbs__id_operator
+  updatedAt: Category_updatedAt_operator
+  createdAt: Category_createdAt_operator
+  id: Category_id_operator
+  AND: [Category_where_and]
+  OR: [Category_where_or]
 }
 
 type categoriesDocAccess {
@@ -4928,6 +6072,7 @@ type categoriesDocAccess {
 
 type CategoriesDocAccessFields {
   title: CategoriesDocAccessFields_title
+  media: CategoriesDocAccessFields_media
   parent: CategoriesDocAccessFields_parent
   breadcrumbs: CategoriesDocAccessFields_breadcrumbs
   updatedAt: CategoriesDocAccessFields_updatedAt
@@ -4954,6 +6099,29 @@ type CategoriesDocAccessFields_title_Update {
 }
 
 type CategoriesDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_media {
+  create: CategoriesDocAccessFields_media_Create
+  read: CategoriesDocAccessFields_media_Read
+  update: CategoriesDocAccessFields_media_Update
+  delete: CategoriesDocAccessFields_media_Delete
+}
+
+type CategoriesDocAccessFields_media_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_media_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_media_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_media_Delete {
   permission: Boolean!
 }
 
@@ -5171,16 +6339,16 @@ type CategoriesDeleteDocAccess {
 
 type Users {
   docs: [User]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input User_where {
@@ -5196,8 +6364,8 @@ input User_where {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
-  OR: [User_where_or]
   AND: [User_where_and]
+  OR: [User_where_or]
 }
 
 input User_name_operator {
@@ -5226,11 +6394,11 @@ enum User_roles_Input {
 }
 
 input User_purchases_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -5246,11 +6414,11 @@ input User_stripeCustomerID_operator {
 }
 
 input User_cart__items__product_operator {
-  equals: String
-  not_equals: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
   exists: Boolean
 }
 
@@ -5324,21 +6492,6 @@ input User_id_operator {
   exists: Boolean
 }
 
-input User_where_or {
-  name: User_name_operator
-  roles: User_roles_operator
-  purchases: User_purchases_operator
-  stripeCustomerID: User_stripeCustomerID_operator
-  cart__items__product: User_cart__items__product_operator
-  cart__items__quantity: User_cart__items__quantity_operator
-  cart__items__id: User_cart__items__id_operator
-  skipSync: User_skipSync_operator
-  updatedAt: User_updatedAt_operator
-  createdAt: User_createdAt_operator
-  email: User_email_operator
-  id: User_id_operator
-}
-
 input User_where_and {
   name: User_name_operator
   roles: User_roles_operator
@@ -5352,6 +6505,25 @@ input User_where_and {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
+}
+
+input User_where_or {
+  name: User_name_operator
+  roles: User_roles_operator
+  purchases: User_purchases_operator
+  stripeCustomerID: User_stripeCustomerID_operator
+  cart__items__product: User_cart__items__product_operator
+  cart__items__quantity: User_cart__items__quantity_operator
+  cart__items__id: User_cart__items__id_operator
+  skipSync: User_skipSync_operator
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
 }
 
 type usersDocAccess {
@@ -5736,10 +6908,1065 @@ type UsersUnlockDocAccess {
 }
 
 type usersMe {
+  collection: String
+  exp: Int
   token: String
   user: User
-  exp: Int
-  collection: String
+}
+
+type Forms {
+  docs: [Form]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Form_where {
+  title: Form_title_operator
+  submitButtonLabel: Form_submitButtonLabel_operator
+  confirmationType: Form_confirmationType_operator
+  confirmationMessage: Form_confirmationMessage_operator
+  redirect__url: Form_redirect__url_operator
+  emails__emailTo: Form_emails__emailTo_operator
+  emails__cc: Form_emails__cc_operator
+  emails__bcc: Form_emails__bcc_operator
+  emails__replyTo: Form_emails__replyTo_operator
+  emails__emailFrom: Form_emails__emailFrom_operator
+  emails__subject: Form_emails__subject_operator
+  emails__message: Form_emails__message_operator
+  emails__id: Form_emails__id_operator
+  updatedAt: Form_updatedAt_operator
+  createdAt: Form_createdAt_operator
+  id: Form_id_operator
+  AND: [Form_where_and]
+  OR: [Form_where_or]
+}
+
+input Form_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Form_submitButtonLabel_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_confirmationType_operator {
+  equals: Form_confirmationType_Input
+  not_equals: Form_confirmationType_Input
+  like: Form_confirmationType_Input
+  contains: Form_confirmationType_Input
+  exists: Boolean
+}
+
+enum Form_confirmationType_Input {
+  message
+  redirect
+}
+
+input Form_confirmationMessage_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+}
+
+input Form_redirect__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Form_emails__emailTo_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_emails__cc_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_emails__bcc_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_emails__replyTo_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_emails__emailFrom_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_emails__subject_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Form_emails__message_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Form_emails__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Form_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Form_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Form_where_and {
+  title: Form_title_operator
+  submitButtonLabel: Form_submitButtonLabel_operator
+  confirmationType: Form_confirmationType_operator
+  confirmationMessage: Form_confirmationMessage_operator
+  redirect__url: Form_redirect__url_operator
+  emails__emailTo: Form_emails__emailTo_operator
+  emails__cc: Form_emails__cc_operator
+  emails__bcc: Form_emails__bcc_operator
+  emails__replyTo: Form_emails__replyTo_operator
+  emails__emailFrom: Form_emails__emailFrom_operator
+  emails__subject: Form_emails__subject_operator
+  emails__message: Form_emails__message_operator
+  emails__id: Form_emails__id_operator
+  updatedAt: Form_updatedAt_operator
+  createdAt: Form_createdAt_operator
+  id: Form_id_operator
+  AND: [Form_where_and]
+  OR: [Form_where_or]
+}
+
+input Form_where_or {
+  title: Form_title_operator
+  submitButtonLabel: Form_submitButtonLabel_operator
+  confirmationType: Form_confirmationType_operator
+  confirmationMessage: Form_confirmationMessage_operator
+  redirect__url: Form_redirect__url_operator
+  emails__emailTo: Form_emails__emailTo_operator
+  emails__cc: Form_emails__cc_operator
+  emails__bcc: Form_emails__bcc_operator
+  emails__replyTo: Form_emails__replyTo_operator
+  emails__emailFrom: Form_emails__emailFrom_operator
+  emails__subject: Form_emails__subject_operator
+  emails__message: Form_emails__message_operator
+  emails__id: Form_emails__id_operator
+  updatedAt: Form_updatedAt_operator
+  createdAt: Form_createdAt_operator
+  id: Form_id_operator
+  AND: [Form_where_and]
+  OR: [Form_where_or]
+}
+
+type formsDocAccess {
+  fields: FormsDocAccessFields
+  create: FormsCreateDocAccess
+  read: FormsReadDocAccess
+  update: FormsUpdateDocAccess
+  delete: FormsDeleteDocAccess
+}
+
+type FormsDocAccessFields {
+  title: FormsDocAccessFields_title
+  fields: FormsDocAccessFields_fields
+  submitButtonLabel: FormsDocAccessFields_submitButtonLabel
+  confirmationType: FormsDocAccessFields_confirmationType
+  confirmationMessage: FormsDocAccessFields_confirmationMessage
+  redirect: FormsDocAccessFields_redirect
+  emails: FormsDocAccessFields_emails
+  updatedAt: FormsDocAccessFields_updatedAt
+  createdAt: FormsDocAccessFields_createdAt
+}
+
+type FormsDocAccessFields_title {
+  create: FormsDocAccessFields_title_Create
+  read: FormsDocAccessFields_title_Read
+  update: FormsDocAccessFields_title_Update
+  delete: FormsDocAccessFields_title_Delete
+}
+
+type FormsDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_fields {
+  create: FormsDocAccessFields_fields_Create
+  read: FormsDocAccessFields_fields_Read
+  update: FormsDocAccessFields_fields_Update
+  delete: FormsDocAccessFields_fields_Delete
+}
+
+type FormsDocAccessFields_fields_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_fields_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_fields_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_fields_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_submitButtonLabel {
+  create: FormsDocAccessFields_submitButtonLabel_Create
+  read: FormsDocAccessFields_submitButtonLabel_Read
+  update: FormsDocAccessFields_submitButtonLabel_Update
+  delete: FormsDocAccessFields_submitButtonLabel_Delete
+}
+
+type FormsDocAccessFields_submitButtonLabel_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_submitButtonLabel_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_submitButtonLabel_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_submitButtonLabel_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationType {
+  create: FormsDocAccessFields_confirmationType_Create
+  read: FormsDocAccessFields_confirmationType_Read
+  update: FormsDocAccessFields_confirmationType_Update
+  delete: FormsDocAccessFields_confirmationType_Delete
+}
+
+type FormsDocAccessFields_confirmationType_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationType_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationType_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationType_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationMessage {
+  create: FormsDocAccessFields_confirmationMessage_Create
+  read: FormsDocAccessFields_confirmationMessage_Read
+  update: FormsDocAccessFields_confirmationMessage_Update
+  delete: FormsDocAccessFields_confirmationMessage_Delete
+}
+
+type FormsDocAccessFields_confirmationMessage_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationMessage_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationMessage_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_confirmationMessage_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect {
+  create: FormsDocAccessFields_redirect_Create
+  read: FormsDocAccessFields_redirect_Read
+  update: FormsDocAccessFields_redirect_Update
+  delete: FormsDocAccessFields_redirect_Delete
+  fields: FormsDocAccessFields_redirect_Fields
+}
+
+type FormsDocAccessFields_redirect_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_Fields {
+  url: FormsDocAccessFields_redirect_url
+}
+
+type FormsDocAccessFields_redirect_url {
+  create: FormsDocAccessFields_redirect_url_Create
+  read: FormsDocAccessFields_redirect_url_Read
+  update: FormsDocAccessFields_redirect_url_Update
+  delete: FormsDocAccessFields_redirect_url_Delete
+}
+
+type FormsDocAccessFields_redirect_url_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_url_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_url_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_redirect_url_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails {
+  create: FormsDocAccessFields_emails_Create
+  read: FormsDocAccessFields_emails_Read
+  update: FormsDocAccessFields_emails_Update
+  delete: FormsDocAccessFields_emails_Delete
+  fields: FormsDocAccessFields_emails_Fields
+}
+
+type FormsDocAccessFields_emails_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_Fields {
+  emailTo: FormsDocAccessFields_emails_emailTo
+  cc: FormsDocAccessFields_emails_cc
+  bcc: FormsDocAccessFields_emails_bcc
+  replyTo: FormsDocAccessFields_emails_replyTo
+  emailFrom: FormsDocAccessFields_emails_emailFrom
+  subject: FormsDocAccessFields_emails_subject
+  message: FormsDocAccessFields_emails_message
+  id: FormsDocAccessFields_emails_id
+}
+
+type FormsDocAccessFields_emails_emailTo {
+  create: FormsDocAccessFields_emails_emailTo_Create
+  read: FormsDocAccessFields_emails_emailTo_Read
+  update: FormsDocAccessFields_emails_emailTo_Update
+  delete: FormsDocAccessFields_emails_emailTo_Delete
+}
+
+type FormsDocAccessFields_emails_emailTo_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailTo_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailTo_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailTo_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_cc {
+  create: FormsDocAccessFields_emails_cc_Create
+  read: FormsDocAccessFields_emails_cc_Read
+  update: FormsDocAccessFields_emails_cc_Update
+  delete: FormsDocAccessFields_emails_cc_Delete
+}
+
+type FormsDocAccessFields_emails_cc_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_cc_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_cc_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_cc_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_bcc {
+  create: FormsDocAccessFields_emails_bcc_Create
+  read: FormsDocAccessFields_emails_bcc_Read
+  update: FormsDocAccessFields_emails_bcc_Update
+  delete: FormsDocAccessFields_emails_bcc_Delete
+}
+
+type FormsDocAccessFields_emails_bcc_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_bcc_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_bcc_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_bcc_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_replyTo {
+  create: FormsDocAccessFields_emails_replyTo_Create
+  read: FormsDocAccessFields_emails_replyTo_Read
+  update: FormsDocAccessFields_emails_replyTo_Update
+  delete: FormsDocAccessFields_emails_replyTo_Delete
+}
+
+type FormsDocAccessFields_emails_replyTo_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_replyTo_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_replyTo_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_replyTo_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailFrom {
+  create: FormsDocAccessFields_emails_emailFrom_Create
+  read: FormsDocAccessFields_emails_emailFrom_Read
+  update: FormsDocAccessFields_emails_emailFrom_Update
+  delete: FormsDocAccessFields_emails_emailFrom_Delete
+}
+
+type FormsDocAccessFields_emails_emailFrom_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailFrom_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailFrom_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_emailFrom_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_subject {
+  create: FormsDocAccessFields_emails_subject_Create
+  read: FormsDocAccessFields_emails_subject_Read
+  update: FormsDocAccessFields_emails_subject_Update
+  delete: FormsDocAccessFields_emails_subject_Delete
+}
+
+type FormsDocAccessFields_emails_subject_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_subject_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_subject_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_subject_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_message {
+  create: FormsDocAccessFields_emails_message_Create
+  read: FormsDocAccessFields_emails_message_Read
+  update: FormsDocAccessFields_emails_message_Update
+  delete: FormsDocAccessFields_emails_message_Delete
+}
+
+type FormsDocAccessFields_emails_message_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_message_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_message_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_message_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_id {
+  create: FormsDocAccessFields_emails_id_Create
+  read: FormsDocAccessFields_emails_id_Read
+  update: FormsDocAccessFields_emails_id_Update
+  delete: FormsDocAccessFields_emails_id_Delete
+}
+
+type FormsDocAccessFields_emails_id_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_id_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_id_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_emails_id_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_updatedAt {
+  create: FormsDocAccessFields_updatedAt_Create
+  read: FormsDocAccessFields_updatedAt_Read
+  update: FormsDocAccessFields_updatedAt_Update
+  delete: FormsDocAccessFields_updatedAt_Delete
+}
+
+type FormsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_createdAt {
+  create: FormsDocAccessFields_createdAt_Create
+  read: FormsDocAccessFields_createdAt_Read
+  update: FormsDocAccessFields_createdAt_Update
+  delete: FormsDocAccessFields_createdAt_Delete
+}
+
+type FormsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FormsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FormsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmission {
+  id: String
+  form: Form!
+  submissionData: [FormSubmission_SubmissionData!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type FormSubmission_SubmissionData {
+  field: String
+  value: String
+  id: String
+}
+
+type FormSubmissions {
+  docs: [FormSubmission]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input FormSubmission_where {
+  form: FormSubmission_form_operator
+  submissionData__field: FormSubmission_submissionData__field_operator
+  submissionData__value: FormSubmission_submissionData__value_operator
+  submissionData__id: FormSubmission_submissionData__id_operator
+  updatedAt: FormSubmission_updatedAt_operator
+  createdAt: FormSubmission_createdAt_operator
+  id: FormSubmission_id_operator
+  AND: [FormSubmission_where_and]
+  OR: [FormSubmission_where_or]
+}
+
+input FormSubmission_form_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input FormSubmission_submissionData__field_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input FormSubmission_submissionData__value_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input FormSubmission_submissionData__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input FormSubmission_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input FormSubmission_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input FormSubmission_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input FormSubmission_where_and {
+  form: FormSubmission_form_operator
+  submissionData__field: FormSubmission_submissionData__field_operator
+  submissionData__value: FormSubmission_submissionData__value_operator
+  submissionData__id: FormSubmission_submissionData__id_operator
+  updatedAt: FormSubmission_updatedAt_operator
+  createdAt: FormSubmission_createdAt_operator
+  id: FormSubmission_id_operator
+  AND: [FormSubmission_where_and]
+  OR: [FormSubmission_where_or]
+}
+
+input FormSubmission_where_or {
+  form: FormSubmission_form_operator
+  submissionData__field: FormSubmission_submissionData__field_operator
+  submissionData__value: FormSubmission_submissionData__value_operator
+  submissionData__id: FormSubmission_submissionData__id_operator
+  updatedAt: FormSubmission_updatedAt_operator
+  createdAt: FormSubmission_createdAt_operator
+  id: FormSubmission_id_operator
+  AND: [FormSubmission_where_and]
+  OR: [FormSubmission_where_or]
+}
+
+type form_submissionsDocAccess {
+  fields: FormSubmissionsDocAccessFields
+  create: FormSubmissionsCreateDocAccess
+  read: FormSubmissionsReadDocAccess
+  update: FormSubmissionsUpdateDocAccess
+  delete: FormSubmissionsDeleteDocAccess
+}
+
+type FormSubmissionsDocAccessFields {
+  form: FormSubmissionsDocAccessFields_form
+  submissionData: FormSubmissionsDocAccessFields_submissionData
+  updatedAt: FormSubmissionsDocAccessFields_updatedAt
+  createdAt: FormSubmissionsDocAccessFields_createdAt
+}
+
+type FormSubmissionsDocAccessFields_form {
+  create: FormSubmissionsDocAccessFields_form_Create
+  read: FormSubmissionsDocAccessFields_form_Read
+  update: FormSubmissionsDocAccessFields_form_Update
+  delete: FormSubmissionsDocAccessFields_form_Delete
+}
+
+type FormSubmissionsDocAccessFields_form_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_form_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_form_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_form_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData {
+  create: FormSubmissionsDocAccessFields_submissionData_Create
+  read: FormSubmissionsDocAccessFields_submissionData_Read
+  update: FormSubmissionsDocAccessFields_submissionData_Update
+  delete: FormSubmissionsDocAccessFields_submissionData_Delete
+  fields: FormSubmissionsDocAccessFields_submissionData_Fields
+}
+
+type FormSubmissionsDocAccessFields_submissionData_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_Fields {
+  field: FormSubmissionsDocAccessFields_submissionData_field
+  value: FormSubmissionsDocAccessFields_submissionData_value
+  id: FormSubmissionsDocAccessFields_submissionData_id
+}
+
+type FormSubmissionsDocAccessFields_submissionData_field {
+  create: FormSubmissionsDocAccessFields_submissionData_field_Create
+  read: FormSubmissionsDocAccessFields_submissionData_field_Read
+  update: FormSubmissionsDocAccessFields_submissionData_field_Update
+  delete: FormSubmissionsDocAccessFields_submissionData_field_Delete
+}
+
+type FormSubmissionsDocAccessFields_submissionData_field_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_field_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_field_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_field_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_value {
+  create: FormSubmissionsDocAccessFields_submissionData_value_Create
+  read: FormSubmissionsDocAccessFields_submissionData_value_Read
+  update: FormSubmissionsDocAccessFields_submissionData_value_Update
+  delete: FormSubmissionsDocAccessFields_submissionData_value_Delete
+}
+
+type FormSubmissionsDocAccessFields_submissionData_value_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_value_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_value_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_value_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_id {
+  create: FormSubmissionsDocAccessFields_submissionData_id_Create
+  read: FormSubmissionsDocAccessFields_submissionData_id_Read
+  update: FormSubmissionsDocAccessFields_submissionData_id_Update
+  delete: FormSubmissionsDocAccessFields_submissionData_id_Delete
+}
+
+type FormSubmissionsDocAccessFields_submissionData_id_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_id_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_id_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_submissionData_id_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_updatedAt {
+  create: FormSubmissionsDocAccessFields_updatedAt_Create
+  read: FormSubmissionsDocAccessFields_updatedAt_Read
+  update: FormSubmissionsDocAccessFields_updatedAt_Update
+  delete: FormSubmissionsDocAccessFields_updatedAt_Delete
+}
+
+type FormSubmissionsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_createdAt {
+  create: FormSubmissionsDocAccessFields_createdAt_Create
+  read: FormSubmissionsDocAccessFields_createdAt_Read
+  update: FormSubmissionsDocAccessFields_createdAt_Update
+  delete: FormSubmissionsDocAccessFields_createdAt_Delete
+}
+
+type FormSubmissionsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
 }
 
 type Redirect {
@@ -5775,16 +8002,16 @@ union Redirect_To_Reference = Page | Product
 
 type Redirects {
   docs: [Redirect]
-  totalDocs: Int
-  offset: Int
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
   limit: Int
-  totalPages: Int
+  nextPage: Int
+  offset: Int
   page: Int
   pagingCounter: Int
-  hasPrevPage: Boolean
-  hasNextPage: Boolean
   prevPage: Int
-  nextPage: Int
+  totalDocs: Int
+  totalPages: Int
 }
 
 input Redirect_where {
@@ -5795,8 +8022,8 @@ input Redirect_where {
   updatedAt: Redirect_updatedAt_operator
   createdAt: Redirect_createdAt_operator
   id: Redirect_id_operator
-  OR: [Redirect_where_or]
   AND: [Redirect_where_and]
+  OR: [Redirect_where_or]
 }
 
 input Redirect_from_operator {
@@ -5812,9 +8039,8 @@ input Redirect_from_operator {
 input Redirect_to__type_operator {
   equals: Redirect_to__type_Input
   not_equals: Redirect_to__type_Input
-  in: [Redirect_to__type_Input]
-  not_in: [Redirect_to__type_Input]
-  all: [Redirect_to__type_Input]
+  like: Redirect_to__type_Input
+  contains: Redirect_to__type_Input
   exists: Boolean
 }
 
@@ -5825,7 +8051,7 @@ enum Redirect_to__type_Input {
 
 input Redirect_to__reference_Relation {
   relationTo: Redirect_to__reference_Relation_RelationTo
-  value: String
+  value: JSON
 }
 
 enum Redirect_to__reference_Relation_RelationTo {
@@ -5876,16 +8102,6 @@ input Redirect_id_operator {
   exists: Boolean
 }
 
-input Redirect_where_or {
-  from: Redirect_from_operator
-  to__type: Redirect_to__type_operator
-  to__reference: Redirect_to__reference_Relation
-  to__url: Redirect_to__url_operator
-  updatedAt: Redirect_updatedAt_operator
-  createdAt: Redirect_createdAt_operator
-  id: Redirect_id_operator
-}
-
 input Redirect_where_and {
   from: Redirect_from_operator
   to__type: Redirect_to__type_operator
@@ -5894,6 +8110,20 @@ input Redirect_where_and {
   updatedAt: Redirect_updatedAt_operator
   createdAt: Redirect_createdAt_operator
   id: Redirect_id_operator
+  AND: [Redirect_where_and]
+  OR: [Redirect_where_or]
+}
+
+input Redirect_where_or {
+  from: Redirect_from_operator
+  to__type: Redirect_to__type_operator
+  to__reference: Redirect_to__reference_Relation
+  to__url: Redirect_to__url_operator
+  updatedAt: Redirect_updatedAt_operator
+  createdAt: Redirect_createdAt_operator
+  id: Redirect_id_operator
+  AND: [Redirect_where_and]
+  OR: [Redirect_where_or]
 }
 
 type redirectsDocAccess {
@@ -6099,6 +8329,287 @@ type RedirectsDeleteDocAccess {
   where: JSONObject
 }
 
+type PayloadPreference {
+  id: String
+  user: PayloadPreference_User_Relationship!
+  key: String
+  value: JSON
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type PayloadPreference_User_Relationship {
+  relationTo: PayloadPreference_User_RelationTo
+  value: PayloadPreference_User
+}
+
+enum PayloadPreference_User_RelationTo {
+  users
+}
+
+union PayloadPreference_User = User
+
+type PayloadPreferences {
+  docs: [PayloadPreference]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input PayloadPreference_where {
+  user: PayloadPreference_user_Relation
+  key: PayloadPreference_key_operator
+  value: PayloadPreference_value_operator
+  updatedAt: PayloadPreference_updatedAt_operator
+  createdAt: PayloadPreference_createdAt_operator
+  id: PayloadPreference_id_operator
+  AND: [PayloadPreference_where_and]
+  OR: [PayloadPreference_where_or]
+}
+
+input PayloadPreference_user_Relation {
+  relationTo: PayloadPreference_user_Relation_RelationTo
+  value: JSON
+}
+
+enum PayloadPreference_user_Relation_RelationTo {
+  users
+}
+
+input PayloadPreference_key_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PayloadPreference_value_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  within: JSON
+  intersects: JSON
+  exists: Boolean
+}
+
+input PayloadPreference_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PayloadPreference_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input PayloadPreference_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input PayloadPreference_where_and {
+  user: PayloadPreference_user_Relation
+  key: PayloadPreference_key_operator
+  value: PayloadPreference_value_operator
+  updatedAt: PayloadPreference_updatedAt_operator
+  createdAt: PayloadPreference_createdAt_operator
+  id: PayloadPreference_id_operator
+  AND: [PayloadPreference_where_and]
+  OR: [PayloadPreference_where_or]
+}
+
+input PayloadPreference_where_or {
+  user: PayloadPreference_user_Relation
+  key: PayloadPreference_key_operator
+  value: PayloadPreference_value_operator
+  updatedAt: PayloadPreference_updatedAt_operator
+  createdAt: PayloadPreference_createdAt_operator
+  id: PayloadPreference_id_operator
+  AND: [PayloadPreference_where_and]
+  OR: [PayloadPreference_where_or]
+}
+
+type payload_preferencesDocAccess {
+  fields: PayloadPreferencesDocAccessFields
+  create: PayloadPreferencesCreateDocAccess
+  read: PayloadPreferencesReadDocAccess
+  update: PayloadPreferencesUpdateDocAccess
+  delete: PayloadPreferencesDeleteDocAccess
+}
+
+type PayloadPreferencesDocAccessFields {
+  user: PayloadPreferencesDocAccessFields_user
+  key: PayloadPreferencesDocAccessFields_key
+  value: PayloadPreferencesDocAccessFields_value
+  updatedAt: PayloadPreferencesDocAccessFields_updatedAt
+  createdAt: PayloadPreferencesDocAccessFields_createdAt
+}
+
+type PayloadPreferencesDocAccessFields_user {
+  create: PayloadPreferencesDocAccessFields_user_Create
+  read: PayloadPreferencesDocAccessFields_user_Read
+  update: PayloadPreferencesDocAccessFields_user_Update
+  delete: PayloadPreferencesDocAccessFields_user_Delete
+}
+
+type PayloadPreferencesDocAccessFields_user_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_user_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_user_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_user_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_key {
+  create: PayloadPreferencesDocAccessFields_key_Create
+  read: PayloadPreferencesDocAccessFields_key_Read
+  update: PayloadPreferencesDocAccessFields_key_Update
+  delete: PayloadPreferencesDocAccessFields_key_Delete
+}
+
+type PayloadPreferencesDocAccessFields_key_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_key_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_key_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_key_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_value {
+  create: PayloadPreferencesDocAccessFields_value_Create
+  read: PayloadPreferencesDocAccessFields_value_Read
+  update: PayloadPreferencesDocAccessFields_value_Update
+  delete: PayloadPreferencesDocAccessFields_value_Delete
+}
+
+type PayloadPreferencesDocAccessFields_value_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_value_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_value_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_value_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_updatedAt {
+  create: PayloadPreferencesDocAccessFields_updatedAt_Create
+  read: PayloadPreferencesDocAccessFields_updatedAt_Read
+  update: PayloadPreferencesDocAccessFields_updatedAt_Update
+  delete: PayloadPreferencesDocAccessFields_updatedAt_Delete
+}
+
+type PayloadPreferencesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_createdAt {
+  create: PayloadPreferencesDocAccessFields_createdAt_Create
+  read: PayloadPreferencesDocAccessFields_createdAt_Read
+  update: PayloadPreferencesDocAccessFields_createdAt_Update
+  delete: PayloadPreferencesDocAccessFields_createdAt_Delete
+}
+
+type PayloadPreferencesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PayloadPreferencesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PayloadPreferencesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PayloadPreferencesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Settings {
   productsPage: Page
   updatedAt: DateTime
@@ -6213,6 +8724,7 @@ type Header_NavItems_Link {
   reference: Header_NavItems_Link_Reference_Relationship
   url: String
   label: String
+  icon(where: Header_NavItems_Link_Icon_where): Media
 }
 
 enum Header_NavItems_Link_type {
@@ -6230,6 +8742,168 @@ enum Header_NavItems_Link_Reference_RelationTo {
 }
 
 union Header_NavItems_Link_Reference = Page
+
+input Header_NavItems_Link_Icon_where {
+  alt: Header_NavItems_Link_Icon_alt_operator
+  caption: Header_NavItems_Link_Icon_caption_operator
+  updatedAt: Header_NavItems_Link_Icon_updatedAt_operator
+  createdAt: Header_NavItems_Link_Icon_createdAt_operator
+  url: Header_NavItems_Link_Icon_url_operator
+  filename: Header_NavItems_Link_Icon_filename_operator
+  mimeType: Header_NavItems_Link_Icon_mimeType_operator
+  filesize: Header_NavItems_Link_Icon_filesize_operator
+  width: Header_NavItems_Link_Icon_width_operator
+  height: Header_NavItems_Link_Icon_height_operator
+  id: Header_NavItems_Link_Icon_id_operator
+  AND: [Header_NavItems_Link_Icon_where_and]
+  OR: [Header_NavItems_Link_Icon_where_or]
+}
+
+input Header_NavItems_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Header_NavItems_Link_Icon_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Header_NavItems_Link_Icon_where_and {
+  alt: Header_NavItems_Link_Icon_alt_operator
+  caption: Header_NavItems_Link_Icon_caption_operator
+  updatedAt: Header_NavItems_Link_Icon_updatedAt_operator
+  createdAt: Header_NavItems_Link_Icon_createdAt_operator
+  url: Header_NavItems_Link_Icon_url_operator
+  filename: Header_NavItems_Link_Icon_filename_operator
+  mimeType: Header_NavItems_Link_Icon_mimeType_operator
+  filesize: Header_NavItems_Link_Icon_filesize_operator
+  width: Header_NavItems_Link_Icon_width_operator
+  height: Header_NavItems_Link_Icon_height_operator
+  id: Header_NavItems_Link_Icon_id_operator
+  AND: [Header_NavItems_Link_Icon_where_and]
+  OR: [Header_NavItems_Link_Icon_where_or]
+}
+
+input Header_NavItems_Link_Icon_where_or {
+  alt: Header_NavItems_Link_Icon_alt_operator
+  caption: Header_NavItems_Link_Icon_caption_operator
+  updatedAt: Header_NavItems_Link_Icon_updatedAt_operator
+  createdAt: Header_NavItems_Link_Icon_createdAt_operator
+  url: Header_NavItems_Link_Icon_url_operator
+  filename: Header_NavItems_Link_Icon_filename_operator
+  mimeType: Header_NavItems_Link_Icon_mimeType_operator
+  filesize: Header_NavItems_Link_Icon_filesize_operator
+  width: Header_NavItems_Link_Icon_width_operator
+  height: Header_NavItems_Link_Icon_height_operator
+  id: Header_NavItems_Link_Icon_id_operator
+  AND: [Header_NavItems_Link_Icon_where_and]
+  OR: [Header_NavItems_Link_Icon_where_or]
+}
 
 type headerDocAccess {
   fields: HeaderDocAccessFields
@@ -6302,6 +8976,7 @@ type HeaderDocAccessFields_navItems_link_Fields {
   reference: HeaderDocAccessFields_navItems_link_reference
   url: HeaderDocAccessFields_navItems_link_url
   label: HeaderDocAccessFields_navItems_link_label
+  icon: HeaderDocAccessFields_navItems_link_icon
 }
 
 type HeaderDocAccessFields_navItems_link_type {
@@ -6419,6 +9094,29 @@ type HeaderDocAccessFields_navItems_link_label_Delete {
   permission: Boolean!
 }
 
+type HeaderDocAccessFields_navItems_link_icon {
+  create: HeaderDocAccessFields_navItems_link_icon_Create
+  read: HeaderDocAccessFields_navItems_link_icon_Read
+  update: HeaderDocAccessFields_navItems_link_icon_Update
+  delete: HeaderDocAccessFields_navItems_link_icon_Delete
+}
+
+type HeaderDocAccessFields_navItems_link_icon_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_icon_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_icon_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_icon_Delete {
+  permission: Boolean!
+}
+
 type HeaderDocAccessFields_navItems_id {
   create: HeaderDocAccessFields_navItems_id_Create
   read: HeaderDocAccessFields_navItems_id_Read
@@ -6499,6 +9197,7 @@ type HeaderUpdateDocAccess {
 }
 
 type Footer {
+  copyright: String
   navItems: [Footer_NavItems!]
   updatedAt: DateTime
   createdAt: DateTime
@@ -6515,6 +9214,7 @@ type Footer_NavItems_Link {
   reference: Footer_NavItems_Link_Reference_Relationship
   url: String
   label: String
+  icon(where: Footer_NavItems_Link_Icon_where): Media
 }
 
 enum Footer_NavItems_Link_type {
@@ -6533,6 +9233,168 @@ enum Footer_NavItems_Link_Reference_RelationTo {
 
 union Footer_NavItems_Link_Reference = Page
 
+input Footer_NavItems_Link_Icon_where {
+  alt: Footer_NavItems_Link_Icon_alt_operator
+  caption: Footer_NavItems_Link_Icon_caption_operator
+  updatedAt: Footer_NavItems_Link_Icon_updatedAt_operator
+  createdAt: Footer_NavItems_Link_Icon_createdAt_operator
+  url: Footer_NavItems_Link_Icon_url_operator
+  filename: Footer_NavItems_Link_Icon_filename_operator
+  mimeType: Footer_NavItems_Link_Icon_mimeType_operator
+  filesize: Footer_NavItems_Link_Icon_filesize_operator
+  width: Footer_NavItems_Link_Icon_width_operator
+  height: Footer_NavItems_Link_Icon_height_operator
+  id: Footer_NavItems_Link_Icon_id_operator
+  AND: [Footer_NavItems_Link_Icon_where_and]
+  OR: [Footer_NavItems_Link_Icon_where_or]
+}
+
+input Footer_NavItems_Link_Icon_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Footer_NavItems_Link_Icon_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Footer_NavItems_Link_Icon_where_and {
+  alt: Footer_NavItems_Link_Icon_alt_operator
+  caption: Footer_NavItems_Link_Icon_caption_operator
+  updatedAt: Footer_NavItems_Link_Icon_updatedAt_operator
+  createdAt: Footer_NavItems_Link_Icon_createdAt_operator
+  url: Footer_NavItems_Link_Icon_url_operator
+  filename: Footer_NavItems_Link_Icon_filename_operator
+  mimeType: Footer_NavItems_Link_Icon_mimeType_operator
+  filesize: Footer_NavItems_Link_Icon_filesize_operator
+  width: Footer_NavItems_Link_Icon_width_operator
+  height: Footer_NavItems_Link_Icon_height_operator
+  id: Footer_NavItems_Link_Icon_id_operator
+  AND: [Footer_NavItems_Link_Icon_where_and]
+  OR: [Footer_NavItems_Link_Icon_where_or]
+}
+
+input Footer_NavItems_Link_Icon_where_or {
+  alt: Footer_NavItems_Link_Icon_alt_operator
+  caption: Footer_NavItems_Link_Icon_caption_operator
+  updatedAt: Footer_NavItems_Link_Icon_updatedAt_operator
+  createdAt: Footer_NavItems_Link_Icon_createdAt_operator
+  url: Footer_NavItems_Link_Icon_url_operator
+  filename: Footer_NavItems_Link_Icon_filename_operator
+  mimeType: Footer_NavItems_Link_Icon_mimeType_operator
+  filesize: Footer_NavItems_Link_Icon_filesize_operator
+  width: Footer_NavItems_Link_Icon_width_operator
+  height: Footer_NavItems_Link_Icon_height_operator
+  id: Footer_NavItems_Link_Icon_id_operator
+  AND: [Footer_NavItems_Link_Icon_where_and]
+  OR: [Footer_NavItems_Link_Icon_where_or]
+}
+
 type footerDocAccess {
   fields: FooterDocAccessFields
   read: FooterReadDocAccess
@@ -6540,9 +9402,33 @@ type footerDocAccess {
 }
 
 type FooterDocAccessFields {
+  copyright: FooterDocAccessFields_copyright
   navItems: FooterDocAccessFields_navItems
   updatedAt: FooterDocAccessFields_updatedAt
   createdAt: FooterDocAccessFields_createdAt
+}
+
+type FooterDocAccessFields_copyright {
+  create: FooterDocAccessFields_copyright_Create
+  read: FooterDocAccessFields_copyright_Read
+  update: FooterDocAccessFields_copyright_Update
+  delete: FooterDocAccessFields_copyright_Delete
+}
+
+type FooterDocAccessFields_copyright_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_copyright_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_copyright_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_copyright_Delete {
+  permission: Boolean!
 }
 
 type FooterDocAccessFields_navItems {
@@ -6604,6 +9490,7 @@ type FooterDocAccessFields_navItems_link_Fields {
   reference: FooterDocAccessFields_navItems_link_reference
   url: FooterDocAccessFields_navItems_link_url
   label: FooterDocAccessFields_navItems_link_label
+  icon: FooterDocAccessFields_navItems_link_icon
 }
 
 type FooterDocAccessFields_navItems_link_type {
@@ -6721,6 +9608,29 @@ type FooterDocAccessFields_navItems_link_label_Delete {
   permission: Boolean!
 }
 
+type FooterDocAccessFields_navItems_link_icon {
+  create: FooterDocAccessFields_navItems_link_icon_Create
+  read: FooterDocAccessFields_navItems_link_icon_Read
+  update: FooterDocAccessFields_navItems_link_icon_Update
+  delete: FooterDocAccessFields_navItems_link_icon_Delete
+}
+
+type FooterDocAccessFields_navItems_link_icon_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_icon_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_icon_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_icon_Delete {
+  permission: Boolean!
+}
+
 type FooterDocAccessFields_navItems_id {
   create: FooterDocAccessFields_navItems_id_Create
   read: FooterDocAccessFields_navItems_id_Read
@@ -6800,13 +9710,6 @@ type FooterUpdateDocAccess {
   where: JSONObject
 }
 
-type Preference {
-  key: String!
-  value: JSON
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
 type Access {
   canAccessAdmin: Boolean!
   pages: pagesAccess
@@ -6815,7 +9718,10 @@ type Access {
   media: mediaAccess
   categories: categoriesAccess
   users: usersAccess
+  forms: formsAccess
+  form_submissions: form_submissionsAccess
   redirects: redirectsAccess
+  payload_preferences: payload_preferencesAccess
   settings: settingsAccess
   header: headerAccess
   footer: footerAccess
@@ -7024,6 +9930,7 @@ type PagesFields_hero_links_link_Fields {
   reference: PagesFields_hero_links_link_reference
   url: PagesFields_hero_links_link_url
   label: PagesFields_hero_links_link_label
+  icon: PagesFields_hero_links_link_icon
   appearance: PagesFields_hero_links_link_appearance
 }
 
@@ -7139,6 +10046,29 @@ type PagesFields_hero_links_link_label_Update {
 }
 
 type PagesFields_hero_links_link_label_Delete {
+  permission: Boolean!
+}
+
+type PagesFields_hero_links_link_icon {
+  create: PagesFields_hero_links_link_icon_Create
+  read: PagesFields_hero_links_link_icon_Read
+  update: PagesFields_hero_links_link_icon_Update
+  delete: PagesFields_hero_links_link_icon_Delete
+}
+
+type PagesFields_hero_links_link_icon_Create {
+  permission: Boolean!
+}
+
+type PagesFields_hero_links_link_icon_Read {
+  permission: Boolean!
+}
+
+type PagesFields_hero_links_link_icon_Update {
+  permission: Boolean!
+}
+
+type PagesFields_hero_links_link_icon_Delete {
   permission: Boolean!
 }
 
@@ -7516,6 +10446,7 @@ type ProductsFields {
   enablePaywall: ProductsFields_enablePaywall
   paywall: ProductsFields_paywall
   categories: ProductsFields_categories
+  relatedProducts: ProductsFields_relatedProducts
   slug: ProductsFields_slug
   skipSync: ProductsFields_skipSync
   meta: ProductsFields_meta
@@ -7705,6 +10636,29 @@ type ProductsFields_categories_Update {
 }
 
 type ProductsFields_categories_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_relatedProducts {
+  create: ProductsFields_relatedProducts_Create
+  read: ProductsFields_relatedProducts_Read
+  update: ProductsFields_relatedProducts_Update
+  delete: ProductsFields_relatedProducts_Delete
+}
+
+type ProductsFields_relatedProducts_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_relatedProducts_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_relatedProducts_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_relatedProducts_Delete {
   permission: Boolean!
 }
 
@@ -8551,6 +11505,7 @@ type categoriesAccess {
 
 type CategoriesFields {
   title: CategoriesFields_title
+  media: CategoriesFields_media
   parent: CategoriesFields_parent
   breadcrumbs: CategoriesFields_breadcrumbs
   updatedAt: CategoriesFields_updatedAt
@@ -8577,6 +11532,29 @@ type CategoriesFields_title_Update {
 }
 
 type CategoriesFields_title_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_media {
+  create: CategoriesFields_media_Create
+  read: CategoriesFields_media_Read
+  update: CategoriesFields_media_Update
+  delete: CategoriesFields_media_Delete
+}
+
+type CategoriesFields_media_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_media_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_media_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_media_Delete {
   permission: Boolean!
 }
 
@@ -9173,6 +12151,680 @@ type UsersUnlockAccess {
   where: JSONObject
 }
 
+type formsAccess {
+  fields: FormsFields
+  create: FormsCreateAccess
+  read: FormsReadAccess
+  update: FormsUpdateAccess
+  delete: FormsDeleteAccess
+}
+
+type FormsFields {
+  title: FormsFields_title
+  fields: FormsFields_fields
+  submitButtonLabel: FormsFields_submitButtonLabel
+  confirmationType: FormsFields_confirmationType
+  confirmationMessage: FormsFields_confirmationMessage
+  redirect: FormsFields_redirect
+  emails: FormsFields_emails
+  updatedAt: FormsFields_updatedAt
+  createdAt: FormsFields_createdAt
+}
+
+type FormsFields_title {
+  create: FormsFields_title_Create
+  read: FormsFields_title_Read
+  update: FormsFields_title_Update
+  delete: FormsFields_title_Delete
+}
+
+type FormsFields_title_Create {
+  permission: Boolean!
+}
+
+type FormsFields_title_Read {
+  permission: Boolean!
+}
+
+type FormsFields_title_Update {
+  permission: Boolean!
+}
+
+type FormsFields_title_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_fields {
+  create: FormsFields_fields_Create
+  read: FormsFields_fields_Read
+  update: FormsFields_fields_Update
+  delete: FormsFields_fields_Delete
+}
+
+type FormsFields_fields_Create {
+  permission: Boolean!
+}
+
+type FormsFields_fields_Read {
+  permission: Boolean!
+}
+
+type FormsFields_fields_Update {
+  permission: Boolean!
+}
+
+type FormsFields_fields_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_submitButtonLabel {
+  create: FormsFields_submitButtonLabel_Create
+  read: FormsFields_submitButtonLabel_Read
+  update: FormsFields_submitButtonLabel_Update
+  delete: FormsFields_submitButtonLabel_Delete
+}
+
+type FormsFields_submitButtonLabel_Create {
+  permission: Boolean!
+}
+
+type FormsFields_submitButtonLabel_Read {
+  permission: Boolean!
+}
+
+type FormsFields_submitButtonLabel_Update {
+  permission: Boolean!
+}
+
+type FormsFields_submitButtonLabel_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationType {
+  create: FormsFields_confirmationType_Create
+  read: FormsFields_confirmationType_Read
+  update: FormsFields_confirmationType_Update
+  delete: FormsFields_confirmationType_Delete
+}
+
+type FormsFields_confirmationType_Create {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationType_Read {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationType_Update {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationType_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationMessage {
+  create: FormsFields_confirmationMessage_Create
+  read: FormsFields_confirmationMessage_Read
+  update: FormsFields_confirmationMessage_Update
+  delete: FormsFields_confirmationMessage_Delete
+}
+
+type FormsFields_confirmationMessage_Create {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationMessage_Read {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationMessage_Update {
+  permission: Boolean!
+}
+
+type FormsFields_confirmationMessage_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_redirect {
+  create: FormsFields_redirect_Create
+  read: FormsFields_redirect_Read
+  update: FormsFields_redirect_Update
+  delete: FormsFields_redirect_Delete
+  fields: FormsFields_redirect_Fields
+}
+
+type FormsFields_redirect_Create {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_Read {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_Update {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_Fields {
+  url: FormsFields_redirect_url
+}
+
+type FormsFields_redirect_url {
+  create: FormsFields_redirect_url_Create
+  read: FormsFields_redirect_url_Read
+  update: FormsFields_redirect_url_Update
+  delete: FormsFields_redirect_url_Delete
+}
+
+type FormsFields_redirect_url_Create {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_url_Read {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_url_Update {
+  permission: Boolean!
+}
+
+type FormsFields_redirect_url_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails {
+  create: FormsFields_emails_Create
+  read: FormsFields_emails_Read
+  update: FormsFields_emails_Update
+  delete: FormsFields_emails_Delete
+  fields: FormsFields_emails_Fields
+}
+
+type FormsFields_emails_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_Fields {
+  emailTo: FormsFields_emails_emailTo
+  cc: FormsFields_emails_cc
+  bcc: FormsFields_emails_bcc
+  replyTo: FormsFields_emails_replyTo
+  emailFrom: FormsFields_emails_emailFrom
+  subject: FormsFields_emails_subject
+  message: FormsFields_emails_message
+  id: FormsFields_emails_id
+}
+
+type FormsFields_emails_emailTo {
+  create: FormsFields_emails_emailTo_Create
+  read: FormsFields_emails_emailTo_Read
+  update: FormsFields_emails_emailTo_Update
+  delete: FormsFields_emails_emailTo_Delete
+}
+
+type FormsFields_emails_emailTo_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailTo_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailTo_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailTo_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_cc {
+  create: FormsFields_emails_cc_Create
+  read: FormsFields_emails_cc_Read
+  update: FormsFields_emails_cc_Update
+  delete: FormsFields_emails_cc_Delete
+}
+
+type FormsFields_emails_cc_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_cc_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_cc_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_cc_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_bcc {
+  create: FormsFields_emails_bcc_Create
+  read: FormsFields_emails_bcc_Read
+  update: FormsFields_emails_bcc_Update
+  delete: FormsFields_emails_bcc_Delete
+}
+
+type FormsFields_emails_bcc_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_bcc_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_bcc_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_bcc_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_replyTo {
+  create: FormsFields_emails_replyTo_Create
+  read: FormsFields_emails_replyTo_Read
+  update: FormsFields_emails_replyTo_Update
+  delete: FormsFields_emails_replyTo_Delete
+}
+
+type FormsFields_emails_replyTo_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_replyTo_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_replyTo_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_replyTo_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailFrom {
+  create: FormsFields_emails_emailFrom_Create
+  read: FormsFields_emails_emailFrom_Read
+  update: FormsFields_emails_emailFrom_Update
+  delete: FormsFields_emails_emailFrom_Delete
+}
+
+type FormsFields_emails_emailFrom_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailFrom_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailFrom_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_emailFrom_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_subject {
+  create: FormsFields_emails_subject_Create
+  read: FormsFields_emails_subject_Read
+  update: FormsFields_emails_subject_Update
+  delete: FormsFields_emails_subject_Delete
+}
+
+type FormsFields_emails_subject_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_subject_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_subject_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_subject_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_message {
+  create: FormsFields_emails_message_Create
+  read: FormsFields_emails_message_Read
+  update: FormsFields_emails_message_Update
+  delete: FormsFields_emails_message_Delete
+}
+
+type FormsFields_emails_message_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_message_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_message_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_message_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_emails_id {
+  create: FormsFields_emails_id_Create
+  read: FormsFields_emails_id_Read
+  update: FormsFields_emails_id_Update
+  delete: FormsFields_emails_id_Delete
+}
+
+type FormsFields_emails_id_Create {
+  permission: Boolean!
+}
+
+type FormsFields_emails_id_Read {
+  permission: Boolean!
+}
+
+type FormsFields_emails_id_Update {
+  permission: Boolean!
+}
+
+type FormsFields_emails_id_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_updatedAt {
+  create: FormsFields_updatedAt_Create
+  read: FormsFields_updatedAt_Read
+  update: FormsFields_updatedAt_Update
+  delete: FormsFields_updatedAt_Delete
+}
+
+type FormsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FormsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FormsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FormsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FormsFields_createdAt {
+  create: FormsFields_createdAt_Create
+  read: FormsFields_createdAt_Read
+  update: FormsFields_createdAt_Update
+  delete: FormsFields_createdAt_Delete
+}
+
+type FormsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FormsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FormsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FormsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FormsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type form_submissionsAccess {
+  fields: FormSubmissionsFields
+  create: FormSubmissionsCreateAccess
+  read: FormSubmissionsReadAccess
+  update: FormSubmissionsUpdateAccess
+  delete: FormSubmissionsDeleteAccess
+}
+
+type FormSubmissionsFields {
+  form: FormSubmissionsFields_form
+  submissionData: FormSubmissionsFields_submissionData
+  updatedAt: FormSubmissionsFields_updatedAt
+  createdAt: FormSubmissionsFields_createdAt
+}
+
+type FormSubmissionsFields_form {
+  create: FormSubmissionsFields_form_Create
+  read: FormSubmissionsFields_form_Read
+  update: FormSubmissionsFields_form_Update
+  delete: FormSubmissionsFields_form_Delete
+}
+
+type FormSubmissionsFields_form_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_form_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_form_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_form_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData {
+  create: FormSubmissionsFields_submissionData_Create
+  read: FormSubmissionsFields_submissionData_Read
+  update: FormSubmissionsFields_submissionData_Update
+  delete: FormSubmissionsFields_submissionData_Delete
+  fields: FormSubmissionsFields_submissionData_Fields
+}
+
+type FormSubmissionsFields_submissionData_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_Fields {
+  field: FormSubmissionsFields_submissionData_field
+  value: FormSubmissionsFields_submissionData_value
+  id: FormSubmissionsFields_submissionData_id
+}
+
+type FormSubmissionsFields_submissionData_field {
+  create: FormSubmissionsFields_submissionData_field_Create
+  read: FormSubmissionsFields_submissionData_field_Read
+  update: FormSubmissionsFields_submissionData_field_Update
+  delete: FormSubmissionsFields_submissionData_field_Delete
+}
+
+type FormSubmissionsFields_submissionData_field_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_field_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_field_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_field_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_value {
+  create: FormSubmissionsFields_submissionData_value_Create
+  read: FormSubmissionsFields_submissionData_value_Read
+  update: FormSubmissionsFields_submissionData_value_Update
+  delete: FormSubmissionsFields_submissionData_value_Delete
+}
+
+type FormSubmissionsFields_submissionData_value_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_value_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_value_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_value_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_id {
+  create: FormSubmissionsFields_submissionData_id_Create
+  read: FormSubmissionsFields_submissionData_id_Read
+  update: FormSubmissionsFields_submissionData_id_Update
+  delete: FormSubmissionsFields_submissionData_id_Delete
+}
+
+type FormSubmissionsFields_submissionData_id_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_id_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_id_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_submissionData_id_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_updatedAt {
+  create: FormSubmissionsFields_updatedAt_Create
+  read: FormSubmissionsFields_updatedAt_Read
+  update: FormSubmissionsFields_updatedAt_Update
+  delete: FormSubmissionsFields_updatedAt_Delete
+}
+
+type FormSubmissionsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_createdAt {
+  create: FormSubmissionsFields_createdAt_Create
+  read: FormSubmissionsFields_createdAt_Read
+  update: FormSubmissionsFields_createdAt_Update
+  delete: FormSubmissionsFields_createdAt_Delete
+}
+
+type FormSubmissionsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FormSubmissionsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FormSubmissionsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FormSubmissionsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type redirectsAccess {
   fields: RedirectsFields
   create: RedirectsCreateAccess
@@ -9376,6 +13028,157 @@ type RedirectsDeleteAccess {
   where: JSONObject
 }
 
+type payload_preferencesAccess {
+  fields: PayloadPreferencesFields
+  create: PayloadPreferencesCreateAccess
+  read: PayloadPreferencesReadAccess
+  update: PayloadPreferencesUpdateAccess
+  delete: PayloadPreferencesDeleteAccess
+}
+
+type PayloadPreferencesFields {
+  user: PayloadPreferencesFields_user
+  key: PayloadPreferencesFields_key
+  value: PayloadPreferencesFields_value
+  updatedAt: PayloadPreferencesFields_updatedAt
+  createdAt: PayloadPreferencesFields_createdAt
+}
+
+type PayloadPreferencesFields_user {
+  create: PayloadPreferencesFields_user_Create
+  read: PayloadPreferencesFields_user_Read
+  update: PayloadPreferencesFields_user_Update
+  delete: PayloadPreferencesFields_user_Delete
+}
+
+type PayloadPreferencesFields_user_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_user_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_user_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_user_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_key {
+  create: PayloadPreferencesFields_key_Create
+  read: PayloadPreferencesFields_key_Read
+  update: PayloadPreferencesFields_key_Update
+  delete: PayloadPreferencesFields_key_Delete
+}
+
+type PayloadPreferencesFields_key_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_key_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_key_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_key_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_value {
+  create: PayloadPreferencesFields_value_Create
+  read: PayloadPreferencesFields_value_Read
+  update: PayloadPreferencesFields_value_Update
+  delete: PayloadPreferencesFields_value_Delete
+}
+
+type PayloadPreferencesFields_value_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_value_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_value_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_value_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_updatedAt {
+  create: PayloadPreferencesFields_updatedAt_Create
+  read: PayloadPreferencesFields_updatedAt_Read
+  update: PayloadPreferencesFields_updatedAt_Update
+  delete: PayloadPreferencesFields_updatedAt_Delete
+}
+
+type PayloadPreferencesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_createdAt {
+  create: PayloadPreferencesFields_createdAt_Create
+  read: PayloadPreferencesFields_createdAt_Read
+  update: PayloadPreferencesFields_createdAt_Update
+  delete: PayloadPreferencesFields_createdAt_Delete
+}
+
+type PayloadPreferencesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PayloadPreferencesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PayloadPreferencesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PayloadPreferencesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PayloadPreferencesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PayloadPreferencesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type settingsAccess {
   fields: SettingsFields
   read: SettingsReadAccess
@@ -9538,6 +13341,7 @@ type HeaderFields_navItems_link_Fields {
   reference: HeaderFields_navItems_link_reference
   url: HeaderFields_navItems_link_url
   label: HeaderFields_navItems_link_label
+  icon: HeaderFields_navItems_link_icon
 }
 
 type HeaderFields_navItems_link_type {
@@ -9655,6 +13459,29 @@ type HeaderFields_navItems_link_label_Delete {
   permission: Boolean!
 }
 
+type HeaderFields_navItems_link_icon {
+  create: HeaderFields_navItems_link_icon_Create
+  read: HeaderFields_navItems_link_icon_Read
+  update: HeaderFields_navItems_link_icon_Update
+  delete: HeaderFields_navItems_link_icon_Delete
+}
+
+type HeaderFields_navItems_link_icon_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_icon_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_icon_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_icon_Delete {
+  permission: Boolean!
+}
+
 type HeaderFields_navItems_id {
   create: HeaderFields_navItems_id_Create
   read: HeaderFields_navItems_id_Read
@@ -9741,9 +13568,33 @@ type footerAccess {
 }
 
 type FooterFields {
+  copyright: FooterFields_copyright
   navItems: FooterFields_navItems
   updatedAt: FooterFields_updatedAt
   createdAt: FooterFields_createdAt
+}
+
+type FooterFields_copyright {
+  create: FooterFields_copyright_Create
+  read: FooterFields_copyright_Read
+  update: FooterFields_copyright_Update
+  delete: FooterFields_copyright_Delete
+}
+
+type FooterFields_copyright_Create {
+  permission: Boolean!
+}
+
+type FooterFields_copyright_Read {
+  permission: Boolean!
+}
+
+type FooterFields_copyright_Update {
+  permission: Boolean!
+}
+
+type FooterFields_copyright_Delete {
+  permission: Boolean!
 }
 
 type FooterFields_navItems {
@@ -9805,6 +13656,7 @@ type FooterFields_navItems_link_Fields {
   reference: FooterFields_navItems_link_reference
   url: FooterFields_navItems_link_url
   label: FooterFields_navItems_link_label
+  icon: FooterFields_navItems_link_icon
 }
 
 type FooterFields_navItems_link_type {
@@ -9922,6 +13774,29 @@ type FooterFields_navItems_link_label_Delete {
   permission: Boolean!
 }
 
+type FooterFields_navItems_link_icon {
+  create: FooterFields_navItems_link_icon_Create
+  read: FooterFields_navItems_link_icon_Read
+  update: FooterFields_navItems_link_icon_Update
+  delete: FooterFields_navItems_link_icon_Delete
+}
+
+type FooterFields_navItems_link_icon_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_icon_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_icon_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_icon_Delete {
+  permission: Boolean!
+}
+
 type FooterFields_navItems_id {
   create: FooterFields_navItems_id_Create
   read: FooterFields_navItems_id_Read
@@ -10003,40 +13878,47 @@ type FooterUpdateAccess {
 
 type Mutation {
   createPage(data: mutationPageInput!, draft: Boolean): Page
-  updatePage(id: String!, data: mutationPageUpdateInput!, draft: Boolean, autosave: Boolean): Page
+  updatePage(id: String!, autosave: Boolean, data: mutationPageUpdateInput!, draft: Boolean): Page
   deletePage(id: String!): Page
   restoreVersionPage(id: String): Page
   createProduct(data: mutationProductInput!, draft: Boolean): Product
-  updateProduct(id: String!, data: mutationProductUpdateInput!, draft: Boolean, autosave: Boolean): Product
+  updateProduct(id: String!, autosave: Boolean, data: mutationProductUpdateInput!, draft: Boolean): Product
   deleteProduct(id: String!): Product
   restoreVersionProduct(id: String): Product
   createOrder(data: mutationOrderInput!, draft: Boolean): Order
-  updateOrder(id: String!, data: mutationOrderUpdateInput!, draft: Boolean, autosave: Boolean): Order
+  updateOrder(id: String!, autosave: Boolean, data: mutationOrderUpdateInput!, draft: Boolean): Order
   deleteOrder(id: String!): Order
   createMedia(data: mutationMediaInput!, draft: Boolean): Media
-  updateMedia(id: String!, data: mutationMediaUpdateInput!, draft: Boolean, autosave: Boolean): Media
+  updateMedia(id: String!, autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean): Media
   deleteMedia(id: String!): Media
   createCategory(data: mutationCategoryInput!, draft: Boolean): Category
-  updateCategory(id: String!, data: mutationCategoryUpdateInput!, draft: Boolean, autosave: Boolean): Category
+  updateCategory(id: String!, autosave: Boolean, data: mutationCategoryUpdateInput!, draft: Boolean): Category
   deleteCategory(id: String!): Category
   createUser(data: mutationUserInput!, draft: Boolean): User
-  updateUser(id: String!, data: mutationUserUpdateInput!, draft: Boolean, autosave: Boolean): User
+  updateUser(id: String!, autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean): User
   deleteUser(id: String!): User
   refreshTokenUser(token: String): usersRefreshedUser
   logoutUser: String
   unlockUser(email: String!): Boolean!
   loginUser(email: String, password: String): usersLoginResult
-  forgotPasswordUser(email: String!, disableEmail: Boolean, expiration: Int): Boolean!
-  resetPasswordUser(token: String, password: String): usersResetPassword
+  forgotPasswordUser(disableEmail: Boolean, email: String!, expiration: Int): Boolean!
+  resetPasswordUser(password: String, token: String): usersResetPassword
   verifyEmailUser(token: String): Boolean
+  createForm(data: mutationFormInput!, draft: Boolean): Form
+  updateForm(id: String!, autosave: Boolean, data: mutationFormUpdateInput!, draft: Boolean): Form
+  deleteForm(id: String!): Form
+  createFormSubmission(data: mutationFormSubmissionInput!, draft: Boolean): FormSubmission
+  updateFormSubmission(id: String!, autosave: Boolean, data: mutationFormSubmissionUpdateInput!, draft: Boolean): FormSubmission
+  deleteFormSubmission(id: String!): FormSubmission
   createRedirect(data: mutationRedirectInput!, draft: Boolean): Redirect
-  updateRedirect(id: String!, data: mutationRedirectUpdateInput!, draft: Boolean, autosave: Boolean): Redirect
+  updateRedirect(id: String!, autosave: Boolean, data: mutationRedirectUpdateInput!, draft: Boolean): Redirect
   deleteRedirect(id: String!): Redirect
+  createPayloadPreference(data: mutationPayloadPreferenceInput!, draft: Boolean): PayloadPreference
+  updatePayloadPreference(id: String!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean): PayloadPreference
+  deletePayloadPreference(id: String!): PayloadPreference
   updateSettings(data: mutationSettingsInput!, draft: Boolean): Settings
   updateHeader(data: mutationHeaderInput!, draft: Boolean): Header
   updateFooter(data: mutationFooterInput!, draft: Boolean): Footer
-  updatePreference(key: String!, value: JSON): Preference
-  deletePreference(key: String!): Preference
 }
 
 input mutationPageInput {
@@ -10063,6 +13945,7 @@ enum Page_Hero_type_MutationInput {
   highImpact
   mediumImpact
   lowImpact
+  customHero
 }
 
 input mutationPage_Hero_LinksInput {
@@ -10076,6 +13959,7 @@ input mutationPage_Hero_Links_LinkInput {
   reference: Page_Hero_Links_Link_ReferenceRelationshipInput
   url: String
   label: String!
+  icon: String
   appearance: Page_Hero_Links_Link_appearance_MutationInput
 }
 
@@ -10129,6 +14013,7 @@ enum PageUpdate_Hero_type_MutationInput {
   highImpact
   mediumImpact
   lowImpact
+  customHero
 }
 
 input mutationPageUpdate_Hero_LinksInput {
@@ -10142,6 +14027,7 @@ input mutationPageUpdate_Hero_Links_LinkInput {
   reference: PageUpdate_Hero_Links_Link_ReferenceRelationshipInput
   url: String
   label: String!
+  icon: String
   appearance: PageUpdate_Hero_Links_Link_appearance_MutationInput
 }
 
@@ -10180,6 +14066,7 @@ input mutationProductInput {
   enablePaywall: Boolean
   paywall: JSON
   categories: [String]
+  relatedProducts: [String]
   slug: String
   skipSync: Boolean
   meta: mutationProduct_MetaInput
@@ -10208,6 +14095,7 @@ input mutationProductUpdateInput {
   enablePaywall: Boolean
   paywall: JSON
   categories: [String]
+  relatedProducts: [String]
   slug: String
   skipSync: Boolean
   meta: mutationProductUpdate_MetaInput
@@ -10286,7 +14174,8 @@ input mutationMediaUpdateInput {
 }
 
 input mutationCategoryInput {
-  title: String
+  title: String!
+  media: String
   parent: String
   breadcrumbs: [mutationCategory_BreadcrumbsInput]
   updatedAt: String
@@ -10302,6 +14191,7 @@ input mutationCategory_BreadcrumbsInput {
 
 input mutationCategoryUpdateInput {
   title: String
+  media: String
   parent: String
   breadcrumbs: [mutationCategoryUpdate_BreadcrumbsInput]
   updatedAt: String
@@ -10384,9 +14274,9 @@ input mutationUserUpdate_Cart_ItemsInput {
 }
 
 type usersRefreshedUser {
-  user: usersJWT
-  refreshedToken: String
   exp: Int
+  refreshedToken: String
+  user: usersJWT
 }
 
 type usersJWT {
@@ -10395,14 +14285,94 @@ type usersJWT {
 }
 
 type usersLoginResult {
+  exp: Int
   token: String
   user: User
-  exp: Int
 }
 
 type usersResetPassword {
   token: String
   user: User
+}
+
+input mutationFormInput {
+  title: String!
+  fields: JSON
+  submitButtonLabel: String
+  confirmationType: String
+  confirmationMessage: JSON
+  redirect: mutationForm_RedirectInput!
+  emails: [mutationForm_EmailsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationForm_RedirectInput {
+  url: String!
+}
+
+input mutationForm_EmailsInput {
+  emailTo: String
+  cc: String
+  bcc: String
+  replyTo: String
+  emailFrom: String
+  subject: String!
+  message: JSON
+  id: String
+}
+
+input mutationFormUpdateInput {
+  title: String
+  fields: JSON
+  submitButtonLabel: String
+  confirmationType: String
+  confirmationMessage: JSON
+  redirect: mutationFormUpdate_RedirectInput!
+  emails: [mutationFormUpdate_EmailsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFormUpdate_RedirectInput {
+  url: String!
+}
+
+input mutationFormUpdate_EmailsInput {
+  emailTo: String
+  cc: String
+  bcc: String
+  replyTo: String
+  emailFrom: String
+  subject: String!
+  message: JSON
+  id: String
+}
+
+input mutationFormSubmissionInput {
+  form: String
+  submissionData: [mutationFormSubmission_SubmissionDataInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFormSubmission_SubmissionDataInput {
+  field: String!
+  value: String!
+  id: String
+}
+
+input mutationFormSubmissionUpdateInput {
+  form: String
+  submissionData: [mutationFormSubmissionUpdate_SubmissionDataInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFormSubmissionUpdate_SubmissionDataInput {
+  field: String!
+  value: String!
+  id: String
 }
 
 input mutationRedirectInput {
@@ -10451,6 +14421,40 @@ enum RedirectUpdate_To_ReferenceRelationshipInputRelationTo {
   products
 }
 
+input mutationPayloadPreferenceInput {
+  user: PayloadPreference_UserRelationshipInput
+  key: String
+  value: JSON
+  updatedAt: String
+  createdAt: String
+}
+
+input PayloadPreference_UserRelationshipInput {
+  relationTo: PayloadPreference_UserRelationshipInputRelationTo
+  value: JSON
+}
+
+enum PayloadPreference_UserRelationshipInputRelationTo {
+  users
+}
+
+input mutationPayloadPreferenceUpdateInput {
+  user: PayloadPreferenceUpdate_UserRelationshipInput
+  key: String
+  value: JSON
+  updatedAt: String
+  createdAt: String
+}
+
+input PayloadPreferenceUpdate_UserRelationshipInput {
+  relationTo: PayloadPreferenceUpdate_UserRelationshipInputRelationTo
+  value: JSON
+}
+
+enum PayloadPreferenceUpdate_UserRelationshipInputRelationTo {
+  users
+}
+
 input mutationSettingsInput {
   productsPage: String
   updatedAt: String
@@ -10474,6 +14478,7 @@ input mutationHeader_NavItems_LinkInput {
   reference: Header_NavItems_Link_ReferenceRelationshipInput
   url: String
   label: String!
+  icon: String
 }
 
 input Header_NavItems_Link_ReferenceRelationshipInput {
@@ -10486,6 +14491,7 @@ enum Header_NavItems_Link_ReferenceRelationshipInputRelationTo {
 }
 
 input mutationFooterInput {
+  copyright: String
   navItems: [mutationFooter_NavItemsInput]
   updatedAt: String
   createdAt: String
@@ -10502,6 +14508,7 @@ input mutationFooter_NavItems_LinkInput {
   reference: Footer_NavItems_Link_ReferenceRelationshipInput
   url: String
   label: String!
+  icon: String
 }
 
 input Footer_NavItems_Link_ReferenceRelationshipInput {

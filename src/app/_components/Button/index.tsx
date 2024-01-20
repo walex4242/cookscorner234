@@ -7,6 +7,7 @@ import classes from './index.module.scss'
 
 export type Props = {
   label?: string
+  form?: string
   appearance?: 'default' | 'primary' | 'secondary' | 'none'
   el?: 'button' | 'link' | 'a'
   onClick?: () => void
@@ -16,6 +17,7 @@ export type Props = {
   type?: 'submit' | 'button'
   disabled?: boolean
   invert?: boolean
+  children?: React.ReactNode
 }
 
 export const Button: React.FC<Props> = ({
@@ -29,6 +31,7 @@ export const Button: React.FC<Props> = ({
   type = 'button',
   disabled,
   invert,
+  children,
 }) => {
   let el = elFromProps
 
@@ -46,6 +49,7 @@ export const Button: React.FC<Props> = ({
   const content = (
     <div className={classes.content}>
       <span className={classes.label}>{label}</span>
+      {children}
     </div>
   )
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Page } from '../../../payload/payload-types.js'
+import { Page } from '../../../payload/payload-types'
 import { ArchiveBlock } from '../../_blocks/ArchiveBlock'
 import { CallToActionBlock } from '../../_blocks/CallToAction'
 import { ContentBlock } from '../../_blocks/Content'
@@ -8,7 +8,9 @@ import { MediaBlock } from '../../_blocks/MediaBlock'
 import { RelatedProducts, type RelatedProductsProps } from '../../_blocks/RelatedProducts'
 import { toKebabCase } from '../../_utilities/toKebabCase'
 import { BackgroundColor } from '../BackgroundColor/index'
-import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding/index'
+import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding'
+import type { FormBlockType } from './Form'
+import { FormBlock } from './Form'
 
 const blockComponents = {
   cta: CallToActionBlock,
@@ -16,13 +18,15 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   archive: ArchiveBlock,
   relatedProducts: RelatedProducts,
+  formBlock: FormBlock,
 }
 
 export const Blocks: React.FC<{
-  blocks: (Page['layout'][0] | RelatedProductsProps)[]
+  blocks: (Page['layout'][0] | RelatedProductsProps | FormBlockType)[]
   disableTopPadding?: boolean
+  disableBottomPadding?: boolean
 }> = props => {
-  const { disableTopPadding, blocks } = props
+  const { disableTopPadding, disableBottomPadding, blocks } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -31,6 +35,11 @@ export const Blocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockName, blockType } = block
+          const isFormBlock = blockType === 'formBlock'
+          {
+            /*@ts-ignore*/
+          }
+          const formID: string = isFormBlock && block && block.id
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
@@ -60,15 +69,20 @@ export const Blocks: React.FC<{
               paddingTop = 'none'
             }
 
+            if (disableBottomPadding && index === 0) {
+              paddingBottom = 'none'
+            }
+
             if (Block) {
               return (
                 <BackgroundColor key={index} invert={blockIsInverted}>
-                  <VerticalPadding top={paddingTop} bottom={paddingBottom}>
-                    <Block
-                      // @ts-expect-error
-                      id={toKebabCase(blockName)}
-                      {...block}
-                    />
+                  <VerticalPadding
+                    key={isFormBlock ? formID : index}
+                    top={paddingTop}
+                    bottom={paddingBottom}
+                  >
+                    {/*@ts-ignore*/}
+                    <Block id={toKebabCase(blockName)} {...block} />
                   </VerticalPadding>
                 </BackgroundColor>
               )
