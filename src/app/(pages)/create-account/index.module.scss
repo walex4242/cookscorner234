@@ -11,7 +11,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('/assets/images/image-2.svg');
+    background-image: url('/assets/images/chicken.svg');
   }
 
   p {
@@ -45,7 +45,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('/assets/images/image-2.svg');
+  background-image: url('/assets/images/chicken.svg');
 
   @include mid-break {
     background: none;
