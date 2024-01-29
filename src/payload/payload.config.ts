@@ -82,7 +82,9 @@ export default buildConfig({
     url: process.env.DATABASE_URI,
   }),
   // database-adapter-config-end
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  serverURL: 'https://cookscornernc.com',
+  // process.env.PAYLOAD_PUBLIC_SERVER_URL,
+
   collections: [Pages, Products, Orders, Media, Categories, Users],
   globals: [Settings, Header, Footer],
   typescript: {
@@ -91,12 +93,8 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
   },
-  cors: ['https://checkout.stripe.com', process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(
-    Boolean,
-  ),
-  csrf: ['https://checkout.stripe.com', process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(
-    Boolean,
-  ),
+  cors: ['https://checkout.stripe.com', 'https://cookscornernc.com' || ''].filter(Boolean),
+  csrf: ['https://checkout.stripe.com', 'https://cookscornernc.com' || ''].filter(Boolean),
   endpoints: [
     {
       path: '/create-payment-intent',
