@@ -37,10 +37,8 @@ const start = async (): Promise<void> => {
   }
 
   app.listen(PORT, async () => {
-    payload.logger.info(`App URL: ${'http://cookscornernc.com'}`)
+    payload.logger.info(`App URL: ${process.env.PAYLOAD_PUBLIC_SERVER_URL}`)
   })
 }
-
-// process.env.PAYLOAD_PUBLIC_SERVER_URL
 
 start()
