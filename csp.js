@@ -15,7 +15,7 @@ const policies = {
     "'self'",
     'https://*.stripe.com',
     'https://raw.githubusercontent.com',
-    // 'https://cookscornernc.com',
+    'https://cookscornernc.com',
     // 'https://cookscorner.payloadcms.app',
   ],
   'font-src': ["'self'"],
@@ -32,6 +32,7 @@ const policies = {
     'https://api.stripe.com',
     'https://maps.googleapis.com',
     // 'https://cookscornernc.com',
+    'https://cookscorner.payloadcms.app',
   ],
 }
 
