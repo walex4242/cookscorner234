@@ -26,14 +26,12 @@ const policies = {
     'https://js.stripe.com',
     'https://hooks.stripe.com',
     'https://cookscornernc.com',
-    'https://cookscorner.payloadcms.app',
   ],
   'connect-src': [
     "'self'",
     'https://checkout.stripe.com',
     'https://api.stripe.com',
     'https://maps.googleapis.com',
-    'https://cookscorner.payloadcms.app',
     'https://cookscornernc.com',
   ],
 }
