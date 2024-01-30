@@ -95,7 +95,7 @@ export default buildConfig({
   },
   cors: [
     'https://checkout.stripe.com',
-    'https://cookscornernc.com',
+    'https://*.cookscornernc.com',
     'https://cookscorner.payloadcms.app' || '',
   ].filter(Boolean),
   csrf: ['https://checkout.stripe.com', process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(
