@@ -15,6 +15,7 @@ const policies = {
     'https://*.stripe.com',
     'https://raw.githubusercontent.com',
     'https://cookscornernc.com',
+    'https://cookscorner.payloadcms.app',
   ],
   'font-src': ["'self'"],
   'frame-src': [
