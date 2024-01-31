@@ -79,7 +79,7 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/form-submissions`, {
+          const req = await fetch(`https://cookscornernc.com/api/form-submissions`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

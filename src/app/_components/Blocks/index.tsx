@@ -20,8 +20,8 @@ const blockComponents = {
   formBlock: FormBlock,
 }
 
-export const Blocks: React.FC<{
-  blocks: Page['layout'] | RelatedProductsProps | FormBlockType
+const Blocks: React.FC<{
+  blocks: (Page['layout'][0] | RelatedProductsProps)[]
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
 }> = props => {
@@ -72,21 +72,20 @@ export const Blocks: React.FC<{
               paddingBottom = 'none'
             }
 
-            // if (Block) {
-            return (
-              // <BackgroundColor key={index} invert={blockIsInverted}>
-              <VerticalPadding
-                key={FormBlock ? formID : index}
-                top={paddingTop}
-                bottom={paddingBottom}
-              >
-                {/*@ts-ignore*/}
-                <Block id={toKebabCase(blockName)} {...block} />
-              </VerticalPadding>
-              // {/* //{' '} */}
-              // </BackgroundColor>
-            )
-            // }
+            if (Block) {
+              return (
+                <BackgroundColor key={index} invert={blockIsInverted}>
+                  <VerticalPadding
+                    key={FormBlock ? formID : index}
+                    top={paddingTop}
+                    bottom={paddingBottom}
+                  >
+                    {/*@ts-ignore*/}
+                    <Block id={toKebabCase(blockName)} {...block} />
+                  </VerticalPadding>
+                </BackgroundColor>
+              )
+            }
           }
           return null
         })}
@@ -96,3 +95,5 @@ export const Blocks: React.FC<{
 
   return null
 }
+
+export default Blocks
