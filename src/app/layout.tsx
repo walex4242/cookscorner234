@@ -40,7 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL),
+  metadataBase: new URL('https://cookscornernc.com/'),
   creator: 'Olawale Olafisoye',
   openGraph: mergeOpenGraph(),
 }
