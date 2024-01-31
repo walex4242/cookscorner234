@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [status, setStatus] = useState<undefined | 'loggedOut' | 'loggedIn'>()
   const create = useCallback<Create>(async args => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/create`, {
+      const res = await fetch(`https://cookscorner.payloadcms.app/api/users/create`, {
         method: 'POST',
         credentials: 'include',
         headers: {
