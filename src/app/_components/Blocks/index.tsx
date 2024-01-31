@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Page } from '../../../payload/payload-types'
+import { Form, Page } from '../../../payload/payload-types'
 import { ArchiveBlock } from '../../_blocks/ArchiveBlock'
 import { CallToActionBlock } from '../../_blocks/CallToAction'
 import { ContentBlock } from '../../_blocks/Content'
@@ -20,7 +20,7 @@ const blockComponents = {
   formBlock: FormBlock,
 }
 
-const Blocks: React.FC<{
+export const Blocks: React.FC<{
   blocks: (Page['layout'][0] | RelatedProductsProps)[]
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
@@ -95,5 +95,3 @@ const Blocks: React.FC<{
 
   return null
 }
-
-export default Blocks
