@@ -9,7 +9,6 @@ import { RelatedProducts, type RelatedProductsProps } from '../../_blocks/Relate
 import { toKebabCase } from '../../_utilities/toKebabCase'
 import { BackgroundColor } from '../BackgroundColor/index'
 import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding'
-import type { FormBlockType } from './Form'
 import { FormBlock } from './Form'
 
 const blockComponents = {
@@ -22,7 +21,7 @@ const blockComponents = {
 }
 
 export const Blocks: React.FC<{
-  blocks: (Page['layout'][0] | RelatedProductsProps | FormBlockType)[]
+  blocks: Page['layout'][0] | RelatedProductsProps
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
 }> = props => {
@@ -34,12 +33,13 @@ export const Blocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const { blockName, blockType } = block
+          const { blockName, blockType, form } = block
+
           const isFormBlock = blockType === 'formBlock'
           {
             /*@ts-ignore*/
           }
-          const formID: string = isFormBlock && block && block.id
+          const formID: string = isFormBlock && form && form.id
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
@@ -73,20 +73,20 @@ export const Blocks: React.FC<{
               paddingBottom = 'none'
             }
 
-            if (Block) {
-              return (
-                <BackgroundColor key={index} invert={blockIsInverted}>
-                  <VerticalPadding
-                    key={isFormBlock ? formID : index}
-                    top={paddingTop}
-                    bottom={paddingBottom}
-                  >
-                    {/*@ts-ignore*/}
-                    <Block id={toKebabCase(blockName)} {...block} />
-                  </VerticalPadding>
-                </BackgroundColor>
-              )
-            }
+            // if (Block) {
+            return (
+              // <BackgroundColor key={index} invert={blockIsInverted}>
+              <VerticalPadding
+                key={isFormBlock ? formID : index}
+                top={paddingTop}
+                bottom={paddingBottom}
+              >
+                {/*@ts-ignore*/}
+                <Block id={toKebabCase(blockName)} {...block} />
+              </VerticalPadding>
+              // </BackgroundColor>
+            )
+            // }
           }
           return null
         })}

@@ -1,4 +1,3 @@
-'use client'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form as FormType } from '@payloadcms/plugin-form-builder/dist/types'
@@ -26,7 +25,6 @@ export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
   enableIntro: Boolean
-  id?: string
   form: FormType
   introContent?: {
     [k: string]: unknown
