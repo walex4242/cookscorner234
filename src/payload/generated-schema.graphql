@@ -1862,6 +1862,7 @@ input Page_hero__type_operator {
   in: [Page_hero__type_Input]
   not_in: [Page_hero__type_Input]
   all: [Page_hero__type_Input]
+  exists: Boolean
 }
 
 enum Page_hero__type_Input {
@@ -1962,6 +1963,7 @@ input Page_hero__links__id_operator {
 input Page_hero__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input Page_slug_operator {
@@ -3457,6 +3459,7 @@ input versionsPage_version__hero__type_operator {
   in: [versionsPage_version__hero__type_Input]
   not_in: [versionsPage_version__hero__type_Input]
   all: [versionsPage_version__hero__type_Input]
+  exists: Boolean
 }
 
 enum versionsPage_version__hero__type_Input {
@@ -3557,6 +3560,7 @@ input versionsPage_version__hero__links__id_operator {
 input versionsPage_version__hero__media_operator {
   equals: String
   not_equals: String
+  exists: Boolean
 }
 
 input versionsPage_version__slug_operator {
@@ -13934,7 +13938,7 @@ input mutationPageInput {
 }
 
 input mutationPage_HeroInput {
-  type: Page_Hero_type_MutationInput!
+  type: Page_Hero_type_MutationInput
   richText: JSON!
   links: [mutationPage_Hero_LinksInput]
   media: String
@@ -14002,7 +14006,7 @@ input mutationPageUpdateInput {
 }
 
 input mutationPageUpdate_HeroInput {
-  type: PageUpdate_Hero_type_MutationInput!
+  type: PageUpdate_Hero_type_MutationInput
   richText: JSON!
   links: [mutationPageUpdate_Hero_LinksInput]
   media: String

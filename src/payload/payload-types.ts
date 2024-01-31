@@ -39,7 +39,7 @@ export interface Page {
   title: string;
   publishedOn?: string | null;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'customHero';
+    type?: ('none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'customHero') | null;
     richText: {
       [k: string]: unknown;
     }[];
