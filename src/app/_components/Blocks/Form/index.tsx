@@ -1,3 +1,4 @@
+'use client'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form as FormType } from '@payloadcms/plugin-form-builder/dist/types'
