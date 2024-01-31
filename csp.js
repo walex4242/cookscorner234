@@ -8,6 +8,7 @@ const policies = {
     'https://js.stripe.com',
     'https://maps.googleapis.com',
     'https://cookscornernc.com',
+    'https://cookscorner.payloadcms.app/',
   ],
   'child-src': ["'self'"],
   'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
@@ -16,6 +17,7 @@ const policies = {
     'https://*.stripe.com',
     'https://raw.githubusercontent.com',
     'https://cookscornernc.com',
+    'https://cookscorner.payloadcms.app/',
   ],
   'font-src': ["'self'"],
   'frame-src': [
@@ -24,6 +26,7 @@ const policies = {
     'https://js.stripe.com',
     'https://hooks.stripe.com',
     'https://cookscornernc.com',
+    'https://cookscorner.payloadcms.app/',
   ],
   'connect-src': [
     "'self'",
@@ -31,6 +34,7 @@ const policies = {
     'https://api.stripe.com',
     'https://maps.googleapis.com',
     'https://cookscornernc.com',
+    'https://cookscorner.payloadcms.app/',
   ],
 }
 
