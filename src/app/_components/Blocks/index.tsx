@@ -9,7 +9,7 @@ import { RelatedProducts, type RelatedProductsProps } from '../../_blocks/Relate
 import { toKebabCase } from '../../_utilities/toKebabCase'
 import { BackgroundColor } from '../BackgroundColor/index'
 import { VerticalPadding, VerticalPaddingOptions } from '../VerticalPadding'
-import { FormBlock } from './Form'
+import { FormBlock, type FormBlockType } from './Form'
 
 const blockComponents = {
   cta: CallToActionBlock,
@@ -21,12 +21,11 @@ const blockComponents = {
 }
 
 export const Blocks: React.FC<{
-  blocks: Page['layout'][0] | RelatedProductsProps
+  blocks: Page['layout'] | RelatedProductsProps | FormBlockType
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
 }> = props => {
   const { disableTopPadding, disableBottomPadding, blocks } = props
-
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
   if (hasBlocks) {
@@ -77,13 +76,14 @@ export const Blocks: React.FC<{
             return (
               // <BackgroundColor key={index} invert={blockIsInverted}>
               <VerticalPadding
-                key={isFormBlock ? formID : index}
+                key={FormBlock ? formID : index}
                 top={paddingTop}
                 bottom={paddingBottom}
               >
                 {/*@ts-ignore*/}
                 <Block id={toKebabCase(blockName)} {...block} />
               </VerticalPadding>
+              // {/* //{' '} */}
               // </BackgroundColor>
             )
             // }
