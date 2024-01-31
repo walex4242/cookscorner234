@@ -34,6 +34,7 @@ export interface Config {
     footer: Footer;
   };
 }
+
 export interface Page {
   id: string;
   title: string;

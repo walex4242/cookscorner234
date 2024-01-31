@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Form, Page } from '../../../payload/payload-types'
+import { Page } from '../../../payload/payload-types'
 import { ArchiveBlock } from '../../_blocks/ArchiveBlock'
 import { CallToActionBlock } from '../../_blocks/CallToAction'
 import { ContentBlock } from '../../_blocks/Content'
@@ -21,7 +21,7 @@ const blockComponents = {
 }
 
 export const Blocks: React.FC<{
-  blocks: (Page['layout'][0] | RelatedProductsProps)[]
+  blocks: (Page['layout'][0] | (RelatedProductsProps & { form?: any }))[]
   disableTopPadding?: boolean
   disableBottomPadding?: boolean
 }> = props => {
@@ -32,7 +32,7 @@ export const Blocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const { blockName, blockType, form } = block
+          const { blockName, blockType, form } = block as any
 
           const isFormBlock = blockType === 'formBlock'
           {

@@ -204,7 +204,7 @@ export const seed = async (payload: Payload): Promise<void> => {
   await payload.updateGlobal({
     slug: 'settings',
     data: {
-      productsPage: productsPageDoc.id,
+      productsPage: productsPage,
     },
   })
 
@@ -219,7 +219,7 @@ export const seed = async (payload: Payload): Promise<void> => {
             type: 'reference',
             reference: {
               relationTo: 'pages',
-              value: productsPageDoc.id,
+              value: productsPage,
             },
             label: 'Shop',
           },
