@@ -7,7 +7,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   description: 'Order your meal and it will be delivered to you',
   images: [
     {
-      url: 'https://cookscornernc.com/media/hero-9.png',
+      url: 'https://cookscornernc.com/media/ied%20(1163x620%20px).png',
     },
   ],
 }

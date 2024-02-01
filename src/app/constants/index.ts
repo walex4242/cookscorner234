@@ -4,11 +4,11 @@ export const inclusions = [
     description: 'Free shipping for orders above $150',
     icon: '/assets/icons/shipping.svg',
   },
-  {
-    title: 'Money Guarantee',
-    description: 'Within 30 days for an exchange',
-    icon: '/assets/icons/dollar.svg',
-  },
+  // {
+  //   title: 'Money Guarantee',
+  //   description: 'Within 30 days for an exchange',
+  //   icon: '/assets/icons/dollar.svg',
+  // },
   {
     title: 'Online Support',
     description: '8 hours a day, 6 days a week',
@@ -16,7 +16,7 @@ export const inclusions = [
   },
   {
     title: 'Flexible Payment',
-    description: 'Pay with multiple credit cards',
+    description: 'Pay with multiple payment options',
     icon: '/assets/icons/payment.svg',
   },
 ]
