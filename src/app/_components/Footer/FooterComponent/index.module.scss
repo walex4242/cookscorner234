@@ -16,7 +16,7 @@
   justify-content: center;
   gap: 30px;
   padding: 0;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin: 100px 0;
 
   @include large-break {
