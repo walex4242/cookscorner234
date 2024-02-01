@@ -18,7 +18,8 @@ import { CheckoutItem } from '../CheckoutItem'
 
 import classes from './index.module.scss'
 
-const apiKey = `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
+const apiKey = `pk_live_51OZMNzEXbuPvJKzPNIJou3t4TN5laJvdfO5GLv9XAL0h0cS6Xuc7vu727pecZVpFwc6qdf0bKtILCoqtxxUFWDXp00Ev5nA5ic`
+// ${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
 const stripe = loadStripe(apiKey)
 
 export const CheckoutPage: React.FC<{
@@ -49,13 +50,10 @@ export const CheckoutPage: React.FC<{
 
       const makeIntent = async () => {
         try {
-          const paymentReq = await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/create-payment-intent`,
-            {
-              method: 'POST',
-              credentials: 'include',
-            },
-          )
+          const paymentReq = await fetch(`https://cookscornernc.com/api/create-payment-intent`, {
+            method: 'POST',
+            credentials: 'include',
+          })
 
           const res = await paymentReq.json()
 

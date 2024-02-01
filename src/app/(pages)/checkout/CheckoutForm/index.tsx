@@ -30,7 +30,7 @@ export const CheckoutForm: React.FC<{}> = () => {
           elements: elements!,
           redirect: 'if_required',
           confirmParams: {
-            return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/order-confirmation`,
+            return_url: `https://cookscornernc.com/order-confirmation`,
           },
         })
 

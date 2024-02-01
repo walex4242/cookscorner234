@@ -23,7 +23,7 @@ export default async function Order({ params: { id } }) {
   let order: Order | null = null
 
   try {
-    order = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders/${id}`, {
+    order = await fetch(`https://cookscornernc.com/api/orders/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `JWT ${token}`,
