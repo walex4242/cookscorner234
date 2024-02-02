@@ -22,7 +22,7 @@ export default async function Orders() {
   let orders: Order[] | null = null
 
   try {
-    orders = await fetch(`https://cookscornernc.com/api/orders`, {
+    orders = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/orders`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `JWT ${token}`,

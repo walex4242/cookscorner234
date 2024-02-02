@@ -31,7 +31,7 @@ export const OrderConfirmationPage: React.FC<{}> = () => {
           <div className={classes.actions}>
             <Button href="/account" label="View account" appearance="primary" />
             <Button
-              href={`https://cookscornernc.com/orders`}
+              href={`${process.env.NEXT_PUBLIC_SERVER_URL}/orders`}
               label="View all orders"
               appearance="secondary"
             />
