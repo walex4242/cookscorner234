@@ -207,7 +207,6 @@ export interface Category {
 export interface Product {
   id: string;
   title: string;
-  productGroup?: string | null;
   publishedOn?: string | null;
   layout?:
     | (
