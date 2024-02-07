@@ -114,20 +114,20 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
         return null
       }),
     )
-    // Ensure that at least one product is selected from each category
-
     const allCategories = fullUser?.cart?.items
-      .flatMap(item =>
-        typeof item.product === 'string' ? [] : ((item.product?.categories || []) as string[]),
-      )
+      .flatMap(item => {
+        const product = item.product as Product
+        return typeof product === 'string' ? [] : ((product?.categories || []) as string[])
+      })
       .filter((category, index, array) => array.indexOf(category) === index)
 
-    const categoriesSelectedInCart = fullUser?.cart?.items
+    const categoriesSelectedInCart = (fullUser?.cart?.items || [])
       .filter(item => typeof item.product !== 'string' && item.product?.categories)
-      .flatMap(item => (item.product as Product)?.categories || []) // Use type assertion here
+      .flatMap(item => {
+        const product = item.product as Product
+        return product?.categories || []
+      })
       .filter((category, index, array) => array.indexOf(category) === index)
-
-    // ...
 
     const isAllCategoriesSelected = allCategories.every(category =>
       categoriesSelectedInCart.includes(category),
@@ -138,7 +138,6 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
         'Please pick at least one product from each category before making a payment.',
       )
     }
-
     if (total === 0) {
       throw new Error('There is nothing to pay for, add some items to your cart and try again.')
     }
