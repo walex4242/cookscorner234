@@ -207,6 +207,7 @@ export interface Category {
 export interface Product {
   id: string;
   title: string;
+  productGroup?: string | null;
   publishedOn?: string | null;
   layout?:
     | (
@@ -560,6 +561,8 @@ export interface User {
   stripeCustomerID?: string | null;
   cart?: {
     items?: CartItems;
+    createdOn?: string | null;
+    lastModified?: string | null;
   };
   skipSync?: boolean | null;
   updatedAt: string;

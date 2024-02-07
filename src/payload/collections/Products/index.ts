@@ -46,6 +46,10 @@ const Products: CollectionConfig = {
       required: true,
     },
     {
+      name: 'productGroup',
+      type: 'text',
+    },
+    {
       name: 'publishedOn',
       type: 'date',
       admin: {

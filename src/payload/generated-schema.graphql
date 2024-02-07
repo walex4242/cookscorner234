@@ -1275,6 +1275,7 @@ union Archive_SelectedDocs = Product
 type Product {
   id: String
   title: String
+  productGroup: String
   publishedOn: DateTime
   layout: [Product_Layout!]
   stripeProductID: String
@@ -3750,6 +3751,7 @@ type Products {
 
 input Product_where {
   title: Product_title_operator
+  productGroup: Product_productGroup_operator
   publishedOn: Product_publishedOn_operator
   stripeProductID: Product_stripeProductID_operator
   priceJSON: Product_priceJSON_operator
@@ -3777,6 +3779,17 @@ input Product_title_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input Product_productGroup_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input Product_publishedOn_operator {
@@ -3924,6 +3937,7 @@ input Product_id_operator {
 
 input Product_where_and {
   title: Product_title_operator
+  productGroup: Product_productGroup_operator
   publishedOn: Product_publishedOn_operator
   stripeProductID: Product_stripeProductID_operator
   priceJSON: Product_priceJSON_operator
@@ -3945,6 +3959,7 @@ input Product_where_and {
 
 input Product_where_or {
   title: Product_title_operator
+  productGroup: Product_productGroup_operator
   publishedOn: Product_publishedOn_operator
   stripeProductID: Product_stripeProductID_operator
   priceJSON: Product_priceJSON_operator
@@ -3975,6 +3990,7 @@ type productsDocAccess {
 
 type ProductsDocAccessFields {
   title: ProductsDocAccessFields_title
+  productGroup: ProductsDocAccessFields_productGroup
   publishedOn: ProductsDocAccessFields_publishedOn
   layout: ProductsDocAccessFields_layout
   stripeProductID: ProductsDocAccessFields_stripeProductID
@@ -4011,6 +4027,29 @@ type ProductsDocAccessFields_title_Update {
 }
 
 type ProductsDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_productGroup {
+  create: ProductsDocAccessFields_productGroup_Create
+  read: ProductsDocAccessFields_productGroup_Read
+  update: ProductsDocAccessFields_productGroup_Update
+  delete: ProductsDocAccessFields_productGroup_Delete
+}
+
+type ProductsDocAccessFields_productGroup_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_productGroup_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_productGroup_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_productGroup_Delete {
   permission: Boolean!
 }
 
@@ -4496,6 +4535,7 @@ type ProductVersion {
 
 type ProductVersion_Version {
   title: String
+  productGroup: String
   publishedOn: DateTime
   layout: [ProductVersion_Version_Layout!]
   stripeProductID: String
@@ -4706,6 +4746,7 @@ type versionsProducts {
 input versionsProduct_where {
   parent: versionsProduct_parent_operator
   version__title: versionsProduct_version__title_operator
+  version__productGroup: versionsProduct_version__productGroup_operator
   version__publishedOn: versionsProduct_version__publishedOn_operator
   version__stripeProductID: versionsProduct_version__stripeProductID_operator
   version__priceJSON: versionsProduct_version__priceJSON_operator
@@ -4745,6 +4786,17 @@ input versionsProduct_version__title_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input versionsProduct_version__productGroup_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
 }
 
 input versionsProduct_version__publishedOn_operator {
@@ -4921,6 +4973,7 @@ input versionsProduct_id_operator {
 input versionsProduct_where_and {
   parent: versionsProduct_parent_operator
   version__title: versionsProduct_version__title_operator
+  version__productGroup: versionsProduct_version__productGroup_operator
   version__publishedOn: versionsProduct_version__publishedOn_operator
   version__stripeProductID: versionsProduct_version__stripeProductID_operator
   version__priceJSON: versionsProduct_version__priceJSON_operator
@@ -4946,6 +4999,7 @@ input versionsProduct_where_and {
 input versionsProduct_where_or {
   parent: versionsProduct_parent_operator
   version__title: versionsProduct_version__title_operator
+  version__productGroup: versionsProduct_version__productGroup_operator
   version__publishedOn: versionsProduct_version__publishedOn_operator
   version__stripeProductID: versionsProduct_version__stripeProductID_operator
   version__priceJSON: versionsProduct_version__priceJSON_operator
@@ -5005,6 +5059,8 @@ enum User_roles {
 
 type User_Cart {
   items: [CartItems!]
+  createdOn: DateTime
+  lastModified: DateTime
 }
 
 type CartItems {
@@ -6363,6 +6419,8 @@ input User_where {
   cart__items__product: User_cart__items__product_operator
   cart__items__quantity: User_cart__items__quantity_operator
   cart__items__id: User_cart__items__id_operator
+  cart__createdOn: User_cart__createdOn_operator
+  cart__lastModified: User_cart__lastModified_operator
   skipSync: User_skipSync_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
@@ -6447,6 +6505,28 @@ input User_cart__items__id_operator {
   exists: Boolean
 }
 
+input User_cart__createdOn_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_cart__lastModified_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
 input User_skipSync_operator {
   equals: Boolean
   not_equals: Boolean
@@ -6504,6 +6584,8 @@ input User_where_and {
   cart__items__product: User_cart__items__product_operator
   cart__items__quantity: User_cart__items__quantity_operator
   cart__items__id: User_cart__items__id_operator
+  cart__createdOn: User_cart__createdOn_operator
+  cart__lastModified: User_cart__lastModified_operator
   skipSync: User_skipSync_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
@@ -6521,6 +6603,8 @@ input User_where_or {
   cart__items__product: User_cart__items__product_operator
   cart__items__quantity: User_cart__items__quantity_operator
   cart__items__id: User_cart__items__id_operator
+  cart__createdOn: User_cart__createdOn_operator
+  cart__lastModified: User_cart__lastModified_operator
   skipSync: User_skipSync_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
@@ -6670,6 +6754,8 @@ type UsersDocAccessFields_cart_Delete {
 
 type UsersDocAccessFields_cart_Fields {
   items: UsersDocAccessFields_cart_items
+  createdOn: UsersDocAccessFields_cart_createdOn
+  lastModified: UsersDocAccessFields_cart_lastModified
 }
 
 type UsersDocAccessFields_cart_items {
@@ -6768,6 +6854,52 @@ type UsersDocAccessFields_cart_items_id_Update {
 }
 
 type UsersDocAccessFields_cart_items_id_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_createdOn {
+  create: UsersDocAccessFields_cart_createdOn_Create
+  read: UsersDocAccessFields_cart_createdOn_Read
+  update: UsersDocAccessFields_cart_createdOn_Update
+  delete: UsersDocAccessFields_cart_createdOn_Delete
+}
+
+type UsersDocAccessFields_cart_createdOn_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_createdOn_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_createdOn_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_createdOn_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_lastModified {
+  create: UsersDocAccessFields_cart_lastModified_Create
+  read: UsersDocAccessFields_cart_lastModified_Read
+  update: UsersDocAccessFields_cart_lastModified_Update
+  delete: UsersDocAccessFields_cart_lastModified_Delete
+}
+
+type UsersDocAccessFields_cart_lastModified_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_lastModified_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_lastModified_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_cart_lastModified_Delete {
   permission: Boolean!
 }
 
@@ -10443,6 +10575,7 @@ type productsAccess {
 
 type ProductsFields {
   title: ProductsFields_title
+  productGroup: ProductsFields_productGroup
   publishedOn: ProductsFields_publishedOn
   layout: ProductsFields_layout
   stripeProductID: ProductsFields_stripeProductID
@@ -10479,6 +10612,29 @@ type ProductsFields_title_Update {
 }
 
 type ProductsFields_title_Delete {
+  permission: Boolean!
+}
+
+type ProductsFields_productGroup {
+  create: ProductsFields_productGroup_Create
+  read: ProductsFields_productGroup_Read
+  update: ProductsFields_productGroup_Update
+  delete: ProductsFields_productGroup_Delete
+}
+
+type ProductsFields_productGroup_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_productGroup_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_productGroup_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_productGroup_Delete {
   permission: Boolean!
 }
 
@@ -11914,6 +12070,8 @@ type UsersFields_cart_Delete {
 
 type UsersFields_cart_Fields {
   items: UsersFields_cart_items
+  createdOn: UsersFields_cart_createdOn
+  lastModified: UsersFields_cart_lastModified
 }
 
 type UsersFields_cart_items {
@@ -12012,6 +12170,52 @@ type UsersFields_cart_items_id_Update {
 }
 
 type UsersFields_cart_items_id_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_cart_createdOn {
+  create: UsersFields_cart_createdOn_Create
+  read: UsersFields_cart_createdOn_Read
+  update: UsersFields_cart_createdOn_Update
+  delete: UsersFields_cart_createdOn_Delete
+}
+
+type UsersFields_cart_createdOn_Create {
+  permission: Boolean!
+}
+
+type UsersFields_cart_createdOn_Read {
+  permission: Boolean!
+}
+
+type UsersFields_cart_createdOn_Update {
+  permission: Boolean!
+}
+
+type UsersFields_cart_createdOn_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_cart_lastModified {
+  create: UsersFields_cart_lastModified_Create
+  read: UsersFields_cart_lastModified_Read
+  update: UsersFields_cart_lastModified_Update
+  delete: UsersFields_cart_lastModified_Delete
+}
+
+type UsersFields_cart_lastModified_Create {
+  permission: Boolean!
+}
+
+type UsersFields_cart_lastModified_Read {
+  permission: Boolean!
+}
+
+type UsersFields_cart_lastModified_Update {
+  permission: Boolean!
+}
+
+type UsersFields_cart_lastModified_Delete {
   permission: Boolean!
 }
 
@@ -14063,6 +14267,7 @@ enum PageUpdate__status_MutationInput {
 
 input mutationProductInput {
   title: String!
+  productGroup: String
   publishedOn: String
   layout: JSON
   stripeProductID: String
@@ -14092,6 +14297,7 @@ enum Product__status_MutationInput {
 
 input mutationProductUpdateInput {
   title: String
+  productGroup: String
   publishedOn: String
   layout: JSON
   stripeProductID: String
@@ -14235,6 +14441,8 @@ enum User_roles_MutationInput {
 
 input mutationUser_CartInput {
   items: [mutationUser_Cart_ItemsInput]
+  createdOn: String
+  lastModified: String
 }
 
 input mutationUser_Cart_ItemsInput {
@@ -14269,6 +14477,8 @@ enum UserUpdate_roles_MutationInput {
 
 input mutationUserUpdate_CartInput {
   items: [mutationUserUpdate_Cart_ItemsInput]
+  createdOn: String
+  lastModified: String
 }
 
 input mutationUserUpdate_Cart_ItemsInput {
