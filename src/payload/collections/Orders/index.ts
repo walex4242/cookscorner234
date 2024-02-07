@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload/types'
 import { admins } from '../../access/admins'
 import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
+import { capOrderPerDay } from './hooks/capOrderPerDay'
 import { clearUserCart } from './hooks/clearUserCart'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
@@ -16,7 +17,7 @@ export const Orders: CollectionConfig = {
     preview: doc => `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/orders/${doc.id}`,
   },
   hooks: {
-    afterChange: [updateUserPurchases, clearUserCart],
+    afterChange: [updateUserPurchases, clearUserCart, capOrderPerDay],
   },
   access: {
     read: adminsOrOrderedBy,
