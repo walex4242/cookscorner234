@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import type { FieldAccess } from 'payload/types'
 
 import type { Category, Product } from '../../../payload-types'
@@ -19,25 +18,31 @@ export const checkUserPurchases: FieldAccess<Product> = async ({ req: { user }, 
     return true
   }
 
-
   if (doc && user && typeof user === 'object' && user?.purchases?.length > 0) {
-    // Check if the user has purchased at least one product from each category
     const productCategories = doc.categories.map(category => {
-      // Use type guard to check if it's an object
       if (isCategoryObject(category)) {
-        return category.id.toString()
+        return category.id
       }
       return category
     })
 
     const userPurchasedCategories = user.purchases
       .filter(purchase => isCategoryObject(purchase) && purchase.id)
-      .map(purchase => purchase.id.toString())
+      .map(purchase => purchase.id)
 
+    // Check if there's at least one purchase for each category
     const hasPurchasedAllCategories = productCategories.every(id =>
+      // eslint-disable-next-line prettier/prettier
       userPurchasedCategories.includes(id),)
 
-    return hasPurchasedAllCategories
+    if (!hasPurchasedAllCategories) {
+      // Return a message indicating that the user needs to pick at least one product from each category
+      throw new Error(
+        'Please pick at least one product from each category before making a payment.',
+      )
+    }
+
+    return true
   }
 
   return false
