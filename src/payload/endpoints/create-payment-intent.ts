@@ -56,10 +56,6 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
       throw new Error('No items in cart')
     }
 
-    
-
-    // ...
-
     await Promise.all(
       fullUser?.cart?.items?.map(async (item: CartItems[0]): Promise<null> => {
         const { product, quantity } = item
@@ -105,7 +101,7 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
               if (typeof category === 'string') {
                 categoriesWithSelectedProducts.add(category)
               } else {
-                categoriesWithSelectedProducts.add(category.id.toString())
+                categoriesWithSelectedProducts.add(category.id)
               }
             })
           }
