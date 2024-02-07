@@ -122,12 +122,6 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
       )
       .filter((category, index, array) => array.indexOf(category) === index)
 
-    // const isProduct = (product: string | Product): product is Product => {
-    //   return typeof product !== 'string' && 'categories' in product
-    // }
-
-    // ...
-
     const categoriesSelectedInCart = fullUser?.cart?.items
       .filter(item => typeof item.product !== 'string' && item.product?.categories)
       .flatMap(item => (item.product as Product)?.categories || []) // Use type assertion here
