@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 /* eslint-disable prettier/prettier */
 import type { PayloadHandler } from 'payload/config'
 import Stripe from 'stripe'
@@ -114,19 +115,18 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
         return null
       }),
     )
-
-    // ...
-
-    // ...
-
     // Ensure that at least one product is selected from each category
+    // ...
+
     const allCategories = fullUser?.cart?.items
       .flatMap(item =>
-        typeof item.product === 'string' ? [] : ((item.product?.categories || []) as string[]),)
+        typeof item.product === 'string' ? [] : ((item.product?.categories || []) as string[]),
+      )
       .filter((category, index, array) => array.indexOf(category) === index)
 
     const isAllCategoriesSelected = allCategories.every(category =>
-      categoriesWithSelectedProducts.has(category),)
+      categoriesWithSelectedProducts.has(category),
+    )
 
     if (!isAllCategoriesSelected) {
       throw new Error(
