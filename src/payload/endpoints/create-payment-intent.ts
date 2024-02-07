@@ -3,7 +3,7 @@
 import type { PayloadHandler } from 'payload/config'
 import Stripe from 'stripe'
 
-import type { CartItems } from '../payload-types'
+import type { CartItems, Product } from '../payload-types'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
@@ -79,12 +79,12 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
               if (typeof category === 'string') {
                 categoriesWithSelectedProducts.add(category)
               } else {
-                // Handle the case where category is a Category object
                 categoriesWithSelectedProducts.add(category.id.toString())
               }
             })
           }
         } else if (product?.stripeProductID) {
+          // Handle the case where product is a Product
           const prices = await stripe.prices.list({
             product: product.stripeProductID,
             limit: 100,
@@ -105,7 +105,6 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
               if (typeof category === 'string') {
                 categoriesWithSelectedProducts.add(category)
               } else {
-                // Handle the case where category is a Category object
                 categoriesWithSelectedProducts.add(category.id.toString())
               }
             })
@@ -116,7 +115,6 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
       }),
     )
     // Ensure that at least one product is selected from each category
-    // ...
 
     const allCategories = fullUser?.cart?.items
       .flatMap(item =>
@@ -124,8 +122,21 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
       )
       .filter((category, index, array) => array.indexOf(category) === index)
 
+    // const isProduct = (product: string | Product): product is Product => {
+    //   return typeof product !== 'string' && 'categories' in product
+    // }
+
+    // ...
+
+    const categoriesSelectedInCart = fullUser?.cart?.items
+      .filter(item => typeof item.product !== 'string' && item.product?.categories)
+      .flatMap(item => (item.product as Product)?.categories || []) // Use type assertion here
+      .filter((category, index, array) => array.indexOf(category) === index)
+
+    // ...
+
     const isAllCategoriesSelected = allCategories.every(category =>
-      categoriesWithSelectedProducts.has(category),
+      categoriesSelectedInCart.includes(category),
     )
 
     if (!isAllCategoriesSelected) {
