@@ -4,7 +4,7 @@ import type { PayloadHandler } from 'payload/config'
 import Stripe from 'stripe'
 
 import type { CartItems, Product } from '../payload-types'
-
+const categoriesWithSelectedProducts: Set<string> = new Set()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
@@ -56,7 +56,7 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
       throw new Error('No items in cart')
     }
 
-    const categoriesWithSelectedProducts: Set<string> = new Set()
+    
 
     // ...
 
@@ -79,7 +79,7 @@ export const createPaymentIntent: PayloadHandler = async (req, res): Promise<voi
               if (typeof category === 'string') {
                 categoriesWithSelectedProducts.add(category)
               } else {
-                categoriesWithSelectedProducts.add(category.id.toString())
+                categoriesWithSelectedProducts.add(category.id)
               }
             })
           }
