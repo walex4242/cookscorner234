@@ -17,7 +17,8 @@ export const Orders: CollectionConfig = {
     preview: doc => `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/orders/${doc.id}`,
   },
   hooks: {
-    afterChange: [updateUserPurchases, clearUserCart, capOrderPerDay],
+    afterChange: [updateUserPurchases, clearUserCart],
+    beforeChange: [capOrderPerDay],
   },
   access: {
     read: adminsOrOrderedBy,

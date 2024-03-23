@@ -1,23 +1,36 @@
-import type { AfterChangeHook } from 'payload/dist/collections/config/types'
+import type { BeforeChangeHook } from 'payload/dist/collections/config/types'
+import APIError from 'payload/dist/errors/APIError'
 
 import type { Order } from '../../../payload-types'
 
-export const capOrderPerDay: AfterChangeHook<Order> = async ({ doc, req, operation }) => {
-  const { payload, user } = req
+class MyError extends APIError {
+  constructor(message: string) {
+    super(message, 400, undefined, true)
+  }
+}
 
-  // Specify the daily order limit
-  const dailyOrderLimit = 10
+export const capOrderPerDay: BeforeChangeHook<Order> = async ({
+  data,
+  req,
+  operation,
+  originalDoc,
+}) => {
+  const { payload } = req
 
-  if (operation === 'create' && doc.orderedBy && user) {
-    const orderedBy = typeof doc.orderedBy === 'string' ? doc.orderedBy : doc.orderedBy.id
+  const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL
+  const totalMealCapRequest = await fetch(`${BASE_URL}/api/globals/mealcap`)
+  const response = await totalMealCapRequest.json()
+  const totalMeapcap = response?.totalMealCap
 
-    // Check if the user has reached the daily order limit
+  if (operation == 'create') {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
+    const now = new Date()
+
+    // we want to get all the orders that the user has made today
     const whereCondition: { [key: string]: unknown } = {
-      orderedBy: { $eq: orderedBy },
-      createdAt: { $gte: today.getTime() },
+      createdAt: { $gte: today.getTime(), $lt: now.getTime() },
     }
 
     const result = await payload.find({
@@ -25,14 +38,13 @@ export const capOrderPerDay: AfterChangeHook<Order> = async ({ doc, req, operati
       where: whereCondition,
     })
 
-    // Access the 'docs' property to get the actual array of documents
-    const userOrders = result.docs || []
-
-    // If the user has reached the daily order limit (e.g., 10), reject the order
-    if (userOrders.length >= dailyOrderLimit) {
-      throw new Error(
-        `Daily order limit reached. You cannot place more than ${dailyOrderLimit} orders today.`,
+    // check if the user has reached the daily limit
+    if (result.totalDocs >= totalMeapcap) {
+      throw new MyError(
+        `Daily order limit reached. You cannot place more than ${totalMeapcap} orders today.`,
       )
     }
   }
+
+  return
 }

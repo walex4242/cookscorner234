@@ -28,6 +28,7 @@ import { seed } from './endpoints/seed'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
+import { MealCap } from './globals/Mealcap'
 import { priceUpdated } from './stripe/webhooks/priceUpdated'
 import { productUpdated } from './stripe/webhooks/productUpdated'
 
@@ -82,11 +83,11 @@ export default buildConfig({
     url: process.env.DATABASE_URI,
   }),
   // database-adapter-config-end
-  serverURL: 'https://cookscornernc.com',
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL as string,
   // process.env.PAYLOAD_PUBLIC_SERVER_URL,
 
   collections: [Pages, Products, Orders, Media, Categories, Users],
-  globals: [Settings, Header, Footer],
+  globals: [Settings, Header, Footer, MealCap],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
@@ -95,7 +96,7 @@ export default buildConfig({
   },
   cors: [
     'https://checkout.stripe.com',
-    'https://cookscornernc.com',
+    'http://localhost:3000', // change to https://cookscornernc.com
     'https://cookscorner.payloadcms.app',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
   ].filter(Boolean),

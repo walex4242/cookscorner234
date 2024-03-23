@@ -41,6 +41,8 @@ type Query {
   docAccessHeader: headerDocAccess
   Footer(draft: Boolean): Footer
   docAccessFooter: footerDocAccess
+  Mealcap(draft: Boolean): Mealcap
+  docAccessMealcap: mealcapDocAccess
   Access: Access
 }
 
@@ -9792,6 +9794,103 @@ type FooterUpdateDocAccess {
   where: JSONObject
 }
 
+type Mealcap {
+  totalMealCap: Float!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type mealcapDocAccess {
+  fields: MealcapDocAccessFields
+  read: MealcapReadDocAccess
+  update: MealcapUpdateDocAccess
+}
+
+type MealcapDocAccessFields {
+  totalMealCap: MealcapDocAccessFields_totalMealCap
+  updatedAt: MealcapDocAccessFields_updatedAt
+  createdAt: MealcapDocAccessFields_createdAt
+}
+
+type MealcapDocAccessFields_totalMealCap {
+  create: MealcapDocAccessFields_totalMealCap_Create
+  read: MealcapDocAccessFields_totalMealCap_Read
+  update: MealcapDocAccessFields_totalMealCap_Update
+  delete: MealcapDocAccessFields_totalMealCap_Delete
+}
+
+type MealcapDocAccessFields_totalMealCap_Create {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_totalMealCap_Read {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_totalMealCap_Update {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_totalMealCap_Delete {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_updatedAt {
+  create: MealcapDocAccessFields_updatedAt_Create
+  read: MealcapDocAccessFields_updatedAt_Read
+  update: MealcapDocAccessFields_updatedAt_Update
+  delete: MealcapDocAccessFields_updatedAt_Delete
+}
+
+type MealcapDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_createdAt {
+  create: MealcapDocAccessFields_createdAt_Create
+  read: MealcapDocAccessFields_createdAt_Read
+  update: MealcapDocAccessFields_createdAt_Update
+  delete: MealcapDocAccessFields_createdAt_Delete
+}
+
+type MealcapDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type MealcapDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type MealcapReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type MealcapUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Access {
   canAccessAdmin: Boolean!
   pages: pagesAccess
@@ -9807,6 +9906,7 @@ type Access {
   settings: settingsAccess
   header: headerAccess
   footer: footerAccess
+  mealcap: mealcapAccess
 }
 
 type pagesAccess {
@@ -14006,6 +14106,97 @@ type FooterUpdateAccess {
   where: JSONObject
 }
 
+type mealcapAccess {
+  fields: MealcapFields
+  read: MealcapReadAccess
+  update: MealcapUpdateAccess
+}
+
+type MealcapFields {
+  totalMealCap: MealcapFields_totalMealCap
+  updatedAt: MealcapFields_updatedAt
+  createdAt: MealcapFields_createdAt
+}
+
+type MealcapFields_totalMealCap {
+  create: MealcapFields_totalMealCap_Create
+  read: MealcapFields_totalMealCap_Read
+  update: MealcapFields_totalMealCap_Update
+  delete: MealcapFields_totalMealCap_Delete
+}
+
+type MealcapFields_totalMealCap_Create {
+  permission: Boolean!
+}
+
+type MealcapFields_totalMealCap_Read {
+  permission: Boolean!
+}
+
+type MealcapFields_totalMealCap_Update {
+  permission: Boolean!
+}
+
+type MealcapFields_totalMealCap_Delete {
+  permission: Boolean!
+}
+
+type MealcapFields_updatedAt {
+  create: MealcapFields_updatedAt_Create
+  read: MealcapFields_updatedAt_Read
+  update: MealcapFields_updatedAt_Update
+  delete: MealcapFields_updatedAt_Delete
+}
+
+type MealcapFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type MealcapFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type MealcapFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type MealcapFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type MealcapFields_createdAt {
+  create: MealcapFields_createdAt_Create
+  read: MealcapFields_createdAt_Read
+  update: MealcapFields_createdAt_Update
+  delete: MealcapFields_createdAt_Delete
+}
+
+type MealcapFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type MealcapFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type MealcapFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type MealcapFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type MealcapReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type MealcapUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type Mutation {
   createPage(data: mutationPageInput!, draft: Boolean): Page
   updatePage(id: String!, autosave: Boolean, data: mutationPageUpdateInput!, draft: Boolean): Page
@@ -14049,6 +14240,7 @@ type Mutation {
   updateSettings(data: mutationSettingsInput!, draft: Boolean): Settings
   updateHeader(data: mutationHeaderInput!, draft: Boolean): Header
   updateFooter(data: mutationFooterInput!, draft: Boolean): Footer
+  updateMealcap(data: mutationMealcapInput!, draft: Boolean): Mealcap
 }
 
 input mutationPageInput {
@@ -14652,4 +14844,10 @@ input Footer_NavItems_Link_ReferenceRelationshipInput {
 
 enum Footer_NavItems_Link_ReferenceRelationshipInputRelationTo {
   pages
+}
+
+input mutationMealcapInput {
+  totalMealCap: Float!
+  updatedAt: String
+  createdAt: String
 }

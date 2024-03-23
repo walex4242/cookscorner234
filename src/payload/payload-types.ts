@@ -32,6 +32,7 @@ export interface Config {
     settings: Settings;
     header: Header;
     footer: Footer;
+    mealcap: Mealcap;
   };
 }
 export interface Page {
@@ -679,6 +680,12 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+export interface Mealcap {
+  id: string;
+  totalMealCap: number;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
