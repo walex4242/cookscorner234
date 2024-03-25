@@ -10,10 +10,9 @@ class MyError extends APIError {
 }
 
 export const capOrderPerDay: BeforeChangeHook<Order> = async ({
-  data,
   req,
   operation,
-  originalDoc,
+
 }) => {
   const { payload } = req
 
