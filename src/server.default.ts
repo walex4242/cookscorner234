@@ -37,7 +37,7 @@ const start = async (): Promise<void> => {
   }
 
   app.listen(PORT, async () => {
-    payload.logger.info(`App URL: 'https://cookscornernc.com/'`)
+    payload.logger.info(`App URL: 'https://cookscornernc.com'`)
   })
 }
 

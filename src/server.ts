@@ -52,7 +52,7 @@ const start = async (): Promise<void> => {
     payload.logger.info('Starting Next.js...')
 
     app.listen(PORT, async () => {
-      payload.logger.info(`Next.js App URL: 'https://cookscornernc.com/'`)
+      payload.logger.info(`Next.js App URL: 'https://cookscornernc.com'`)
     })
   })
 }

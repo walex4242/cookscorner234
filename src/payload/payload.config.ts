@@ -27,8 +27,8 @@ import { productsProxy } from './endpoints/products'
 import { seed } from './endpoints/seed'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
-import { Settings } from './globals/Settings'
 import { MealCap } from './globals/Mealcap'
+import { Settings } from './globals/Settings'
 import { priceUpdated } from './stripe/webhooks/priceUpdated'
 import { productUpdated } from './stripe/webhooks/productUpdated'
 
@@ -83,7 +83,7 @@ export default buildConfig({
     url: process.env.DATABASE_URI,
   }),
   // database-adapter-config-end
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL as string,
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   // process.env.PAYLOAD_PUBLIC_SERVER_URL,
 
   collections: [Pages, Products, Orders, Media, Categories, Users],
