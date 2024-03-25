@@ -9,12 +9,7 @@ class MyError extends APIError {
   }
 }
 
-export const capOrderPerDay: BeforeChangeHook<Order> = async ({
-  data,
-  req,
-  operation,
-  originalDoc,
-}) => {
+export const capOrderPerDay: BeforeChangeHook<Order> = async ({ req, operation }) => {
   const { payload } = req
 
   const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL
