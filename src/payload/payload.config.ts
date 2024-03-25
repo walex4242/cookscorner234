@@ -96,7 +96,7 @@ export default buildConfig({
   },
   cors: [
     'https://checkout.stripe.com',
-    'http://localhost:3000', // change to https://cookscornernc.com
+    'https://cookscornernc.com', // change to https://cookscornernc.com
     'https://cookscorner.payloadcms.app',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
   ].filter(Boolean),
