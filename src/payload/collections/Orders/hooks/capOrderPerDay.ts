@@ -23,19 +23,16 @@ export const capOrderPerDay: BeforeChangeHook<Order> = async ({
   const totalMeapcap = response?.totalMealCap
 
   if (operation == 'create') {
-    const today = new Date()
+    var today = new Date()
     today.setHours(0, 0, 0, 0)
-
-    const now = new Date()
-
-    // we want to get all the orders that the user has made today
-    const whereCondition: { [key: string]: unknown } = {
-      createdAt: { $gte: today.getTime(), $lt: now.getTime() },
-    }
 
     const result = await payload.find({
       collection: 'orders',
-      where: whereCondition,
+      where: {
+        createdAt: {
+          greater_than_equal: today.toISOString(),
+        },
+      },
     })
 
     // check if the user has reached the daily limit
