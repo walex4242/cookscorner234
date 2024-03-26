@@ -6,7 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { Product, Settings, Category } from '../../../../payload/payload-types'
+import { Category, Product, Settings } from '../../../../payload/payload-types'
 import { Button } from '../../../_components/Button'
 import { LoadingShimmer } from '../../../_components/LoadingShimmer'
 import { useAuth } from '../../../_providers/Auth'
@@ -38,11 +38,11 @@ export const CheckoutPage: React.FC<{
 
   const { cart, cartIsEmpty, cartTotal } = useCart()
 
-  // useEffect(() => {
-  //   if (user !== null && cartIsEmpty) {
-  //     router.push('/cart')
-  //   }
-  // }, [router, user, cartIsEmpty])
+  useEffect(() => {
+    if (user !== null && cartIsEmpty) {
+      router.push('/cart')
+    }
+  }, [router, user, cartIsEmpty])
 
   // utility functions
   const getProductById = async (productId: string): Promise<Product> => {
