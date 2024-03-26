@@ -1,12 +1,12 @@
 'use client'
 
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useMemo } from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { Settings } from '../../../../payload/payload-types'
+import { Product, Settings, Category } from '../../../../payload/payload-types'
 import { Button } from '../../../_components/Button'
 import { LoadingShimmer } from '../../../_components/LoadingShimmer'
 import { useAuth } from '../../../_providers/Auth'
@@ -31,17 +31,52 @@ export const CheckoutPage: React.FC<{
   const { user } = useAuth()
   const router = useRouter()
   const [error, setError] = React.useState<string | null>(null)
+  const [allCategoriesSelected, setAllCategoriesSelected] = React.useState<boolean>(false)
   const [clientSecret, setClientSecret] = React.useState()
   const hasMadePaymentIntent = React.useRef(false)
   const { theme } = useTheme()
 
   const { cart, cartIsEmpty, cartTotal } = useCart()
 
-  useEffect(() => {
-    if (user !== null && cartIsEmpty) {
-      router.push('/cart')
+  // useEffect(() => {
+  //   if (user !== null && cartIsEmpty) {
+  //     router.push('/cart')
+  //   }
+  // }, [router, user, cartIsEmpty])
+
+  // utility functions
+  const getProductById = async (productId: string): Promise<Product> => {
+    const request = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/${productId}`)
+    const product = await request.json()
+    return product
+  }
+
+  const getAllCategories = async (): Promise<Category[]> => {
+    const request = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/categories`)
+
+    const categories = await request.json()
+
+    return categories
+  }
+
+  const validateCategoriesInCart = async (): Promise<boolean> => {
+    const categoriesFound: Set<string> = new Set()
+
+    for (const cartItem of cart.items) {
+      // @ts-ignore
+      const product: any = await getProductById(cartItem.product?.id as string)
+
+      if (product) {
+        categoriesFound.add(product.categories[0]?.id as string)
+      }
     }
-  }, [router, user, cartIsEmpty])
+
+    const allCategories = await getAllCategories()
+    // @ts-ignore
+    const hasAllCategories = allCategories?.docs.every(category => categoriesFound.has(category.id))
+
+    return hasAllCategories
+  }
 
   useEffect(() => {
     if (user && cart && hasMadePaymentIntent.current === false) {
@@ -71,10 +106,23 @@ export const CheckoutPage: React.FC<{
       }
 
       makeIntent()
+
+      const updateCategoriesSelected = async () => {
+        const categoriesSelected = await validateCategoriesInCart()
+        setAllCategoriesSelected(categoriesSelected)
+        //console.log('allCategoriesSelected:', categoriesSelected)
+      }
+
+      updateCategoriesSelected()
     }
-  }, [cart, user])
+  }, [user, cart])
 
   if (!user || !stripe) return null
+
+  useMemo(async () => {
+    const categoriesSelected = await validateCategoriesInCart()
+    setAllCategoriesSelected(categoriesSelected)
+  }, [user, cart])
 
   return (
     <Fragment>
@@ -91,6 +139,7 @@ export const CheckoutPage: React.FC<{
           )}
         </div>
       )}
+
       {!cartIsEmpty && (
         <div className={classes.items}>
           <div className={classes.header}>
@@ -136,6 +185,23 @@ export const CheckoutPage: React.FC<{
           </ul>
         </div>
       )}
+
+      {/* Show loading indicator while validating categories */}
+      {!allCategoriesSelected && !clientSecret && (
+        <div className={classes.loading}>
+          <LoadingShimmer number={2} />
+        </div>
+      )}
+
+      {!allCategoriesSelected && clientSecret && (
+        <div className={classes.error}>
+          <h3>Error</h3>
+          <p>{`You must select at 1 meal from all categories`}</p>
+          <br />
+          <Button label="Continue shopping" href="/products" appearance="primary" />
+        </div>
+      )}
+
       {!clientSecret && !error && (
         <div className={classes.loading}>
           <LoadingShimmer number={2} />
@@ -147,7 +213,7 @@ export const CheckoutPage: React.FC<{
           <Button label="Back to cart" href="/cart" appearance="secondary" />
         </div>
       )}
-      {clientSecret && (
+      {allCategoriesSelected && clientSecret && (
         <Fragment>
           <h3 className={classes.payment}>Payment Details</h3>
           {error && <p>{`Error: ${error}`}</p>}
